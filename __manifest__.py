@@ -2,6 +2,7 @@
     'name': 'Sincpro Whatsapp',
     'description': '',
     'depends': [
+        'base',
         'account',
     ],
     'data': [
