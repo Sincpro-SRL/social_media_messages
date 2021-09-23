@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+        <record id="actions_whatsapp_settings" model="ir.actions.act_window">
+            <field name="name">Whatsapp Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module': 'conf_whatsapp'}</field>
+        </record>
+
+        <record id="cpq_data_config_settings" model="ir.ui.view">
+            <field name="name">res.config.view.inherited.cpq_data</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="30"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Whatsapp Settings" string="Whatsapp" data-key="conf_whatsapp" >
+                        <h2> Configuracion </h2>
+                        <div class="row at16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <h3>Añadir whatsapp</h3>
+
+                                <span class="o_form_label">VENTAS</span>
+                                <input type="checkbox"/>
+                                <br/>
+
+                                <br/>
+                                <span class="o_form_label">CRM</span>
+                                <input type="checkbox"/>
+                                <br/>
+
+                                <br/>
+                                <span class="o_form_label">INVETARIO</span>
+                                <input type="checkbox"/>
+                                <br/>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem id="sincpro_whatsapp_Settings" name="Settings" sequence="20" web_icon="demo_res_config,static/description/icon.png"/>
+        <menuitem id="Settings" parent="sincpro_whatsapp_Settings" sequence="2" action="actions_whatsapp_settings" name="Settings" />
+    </data>
+</odoo>

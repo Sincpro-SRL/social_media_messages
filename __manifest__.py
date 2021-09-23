@@ -6,6 +6,7 @@
         'account',
     ],
     'data': [
-        'views/view_move_form_whatsapp_button.xml',
+        'views/view_move_form_whatsapp_button.xml',        
+        'views/settings.xml',
     ],
 }
