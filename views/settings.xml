@@ -19,32 +19,45 @@
                     <div class="app_settings_block" data-string="Whatsapp Settings" string="Whatsapp" data-key="conf_whatsapp" >
                         <h2> Configuracion </h2>
                         <div class="row at16 o_settings_container">
-                            <div class="col-12 col-lg-6 o_setting_box">
-                                <h3>Añadir whatsapp</h3>
-
-                                <span class="o_form_label">VENTAS</span>
-                                <input type="checkbox"/>
-                                <br/>
-
-                                <br/>
-                                <span class="o_form_label">CRM</span>
-                                <input type="checkbox"/>
-                                <br/>
-
-                                <br/>
-                                <span class="o_form_label">INVETARIO</span>
-                                <input type="checkbox"/>
-                                <br/>
+                            <div class="o_setting_left_pane">
+                                <div class="o_setting_right_pane">
+                                    
+                                    <div class="text-muted">
+                                        Crm
+                                    </div>
+                                    <field name="whatsapp_crm"/>
+                                </div>
                             </div>
-                            
-
                         </div>
+                        <div class="row at16 o_settings_container">
+                            <div class="o_setting_left_pane">
+                                <div class="o_setting_right_pane">
+                                    
+                                    <div class="text-muted">
+                                        Ventas
+                                    </div>
+                                    <field name="whatsapp_sales"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row at16 o_settings_container">
+                            <div class="o_setting_left_pane">
+                                <div class="o_setting_right_pane">
+                                    
+                                    <div class="text-muted">
+                                        Inventario
+                                    </div>
+                                    <field name="whatsapp_inventory"/>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </xpath>
             </field>
         </record>
 
-        <menuitem id="sincpro_whatsapp_Settings" name="Settings" sequence="20" web_icon="demo_res_config,static/description/icon.png"/>
+        <menuitem id="sincpro_whatsapp_Settings" name="Settings_whatsapp" sequence="20"/>
         <menuitem id="Settings" parent="sincpro_whatsapp_Settings" sequence="2" action="actions_whatsapp_settings" name="Settings" />
     </data>
 </odoo>
