@@ -18,40 +18,47 @@
                 <xpath expr="//div[hasclass('settings')]" position="inside">
                     <div class="app_settings_block" data-string="Whatsapp Settings" string="Whatsapp" data-key="conf_whatsapp" >
                         <h2> Configuracion </h2>
-                        <div class="row at16 o_settings_container">
-                            <div class="o_setting_left_pane">
-                                <div class="o_setting_right_pane">
-                                    
-                                    <div class="text-muted">
-                                        Crm
-                                    </div>
+                         <div class="row mt16 o_settings_container" >
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
                                     <field name="whatsapp_crm"/>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row at16 o_settings_container">
-                            <div class="o_setting_left_pane">
                                 <div class="o_setting_right_pane">
-                                    
-                                    <div class="text-muted">
-                                        Ventas
-                                    </div>
-                                    <field name="whatsapp_sales"/>
+                                        <div class="text-muted">
+                                            Crm
+                                        </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row at16 o_settings_container">
-                            <div class="o_setting_left_pane">
-                                <div class="o_setting_right_pane">
-                                    
-                                    <div class="text-muted">
-                                        Inventario
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="whatsapp_sales"/>
                                     </div>
+                                    <div class="o_setting_right_pane">
+                                            <div class="text-muted">
+                                                Ventas
+                                            </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
                                     <field name="whatsapp_inventory"/>
                                 </div>
+                                <div class="o_setting_right_pane">
+                                        <div class="text-muted">
+                                            Invetario
+                                        </div>
+                                </div>
                             </div>
                         </div>
-
+                        <h2>Autenticaciòn por token</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class ="content-group">
+                                    <label for="whatsapp_token" string="Token"/>
+                                    <field name ="whatsapp_token"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </xpath>
             </field>
