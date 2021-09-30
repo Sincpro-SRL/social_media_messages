@@ -21,7 +21,7 @@ class WhatsappConfigSettings(models.TransientModel):
         whatsapp_crm = self.env['ir.config_parameter'].get_param("whatsapp.whatsapp_crm")
         whatsapp_sales = self.env['ir.config_parameter'].get_param("whatsapp.whatsapp_sales")
         whatsapp_inventory = self.env['ir.config_parameter'].get_param("whatsapp.whatsapp_inventory")
-        whatsapp_token = self.env['ir.config_paramenter'].get_param("whatsapp.whatsapp_token")
+        whatsapp_token = self.env['ir.config_parameter'].get_param("whatsapp.whatsapp_token")
         res.update({
             'whatsapp_crm': whatsapp_crm,
             'whatsapp_sales': whatsapp_sales,
