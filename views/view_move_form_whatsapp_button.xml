@@ -11,7 +11,7 @@
             Para poder colocar el boton en el lugar que se desea es necesario especificarlo con el atributo "xpath" y "position" para el ejemplo en position
             se asigna "after" para indicar que se añadira el boton despues de la posicion descrita en el xpath:
             <xpath expr="//posicion//del//xml[@name='nombre_del_field']" position="after">
-                Para anadir el boton es necesario especificar tres atributos el "type", "name", "string"
+                Para añadir el boton es necesario especificar tres atributos el "type", "name", "string"
                 Para este caso el type se debera asignar "object"
                 Para name debe asignarce el metodo que esta definido en el modelo heredado
                 Para string se debe asignar una cadena que sera mostrada en la interfax de odoo
