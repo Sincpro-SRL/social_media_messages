@@ -1,5 +1,5 @@
 {
-    'name': 'Sincpro Whatsapp',
+    'name': 'Sincpro RRSS Messages',
     'description': '',
     'depends': [
         'base',
@@ -8,7 +8,7 @@
         'crm',
     ],
     'data': [
-        'views/settings.xml',
+        'views/settings_whatsapp.xml',
         'security/ir.model.access.csv',
         'views/view_move_form_whatsapp_button.xml',
         'views/view_order_form_whatsapp_button.xml',
