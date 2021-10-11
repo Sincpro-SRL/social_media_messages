@@ -1,2 +1,2 @@
-from . import autentication_user
-from . import profile_functions
+from .autentication_user import get_token
+from .profile_functions import get_info_profile
