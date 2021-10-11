@@ -8,6 +8,6 @@ def get_info_profile(user):
     else:
         url = f'https://graph.facebook.com/{user}?access_token={token}'
         response = requests.get(url)
-    print(response.json())
+        return response
 
     
