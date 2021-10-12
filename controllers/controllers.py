@@ -3,10 +3,12 @@ from odoo import http
 from odoo.http import request
 from odoo.http import Response
 import logging
-from ..facebook_handler.profile_functions import get_info_profile
+#from ..facebook_handler.profile_functions import get_info_profile
 
 _logger = logging.getLogger(__name__)
 
+def get_info_profile():
+    return "mensaje"
 
 class ControllerWebhookMessenger(http.Controller):
 
