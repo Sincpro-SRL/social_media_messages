@@ -17,9 +17,8 @@ class ControllerWebhookMessenger(http.Controller):
         if data["object"] == "page":
             for info in data["entry"]:
                 _logger.info(info["messaging"][0])
-                get_info_profile()           
-                #_logger.info(get_info_profile())
             return "EVENT_RECEIVED"
+            get_info_profile()
         else:
             return Response(status=404)
 
