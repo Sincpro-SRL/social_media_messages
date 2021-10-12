@@ -1,4 +1,5 @@
 from odoo import fields, models, api
+from ..facebook_handler.profile_functions import get_info_profile
 
 class WhatsappConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
@@ -36,6 +37,7 @@ class WhatsappConfigSettings(models.TransientModel):
         facebook_sales = self.env['ir.config_parameter'].get_param("facebook.facebook_sales")
         facebook_inventory = self.env['ir.config_parameter'].get_param("facebook.facebook_inventory")
         facebook_token = self.env['ir.config_parameter'].sudo().get_param("facebook.facebook_token")
+        
         res.update({
             'facebook_crm': facebook_crm,
             'facebook_sales': facebook_sales,
