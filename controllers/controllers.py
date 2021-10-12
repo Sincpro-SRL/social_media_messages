@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from odoo import http
 from odoo.http import request
 from odoo.http import Response
@@ -14,10 +13,11 @@ class ControllerWebhookMessenger(http.Controller):
     @http.route('/webhook_messenger', methods=['POST'], type='json', auth="public", csrf=False)
     def webhook(self, **kw):
         data = request.jsonrequest
+        token_value = self.env['ir.config_parameter'].get_param("facebook.facebook_token")
         if data["object"] == "page":
             for info in data["entry"]:
                 _logger.info(info["messaging"][0])
-                get_info_profile(info["messaging"][0])           
+                get_info_profile(info["messaging"][0], token_value)           
                 _logger.info(get_info_profile())
             return "EVENT_RECEIVED"
         else:

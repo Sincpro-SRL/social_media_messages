@@ -1,10 +1,8 @@
 import requests
-from . import get_token
 
-def get_info_profile(user):
+def get_info_profile(user, token):
     user_id = user["sender"]["id"]
 
-    token = get_token()
     if not token:
         return Response(status=404)
     else:

@@ -1,5 +1,4 @@
 from odoo import fields, models, api
-from ..facebook_handler.autentication_user import get_token
 
 class WhatsappConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
@@ -43,7 +42,6 @@ class WhatsappConfigSettings(models.TransientModel):
             'facebook_inventory': facebook_inventory,
             'facebook_token': facebook_token,
         })
-        
-        get_token(facebook_token)
-
+        print(self.env['ir.config_parameter'].get_param("facebook.facebook_token"))
         return res
+
