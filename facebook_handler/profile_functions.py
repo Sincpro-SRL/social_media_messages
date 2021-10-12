@@ -7,7 +7,7 @@ def get_info_profile(user, token):
 
     try:
         if not token:
-            raise ValidationError("user error")
+            pritn("Error")
         else: 
             url = f'https://graph.facebook.com/{user_id}?access_token={token}'
             response = requests.get(url)
