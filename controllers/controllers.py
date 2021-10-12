@@ -13,7 +13,7 @@ class ControllerWebhookMessenger(http.Controller):
     @http.route('/webhook_messenger', methods=['POST'], type='json', auth="public", csrf=False)
     def webhook(self, **kw):
         data = request.jsonrequest
-        token_value = self.env['ir.config_parameter'].get_param("facebook.facebook_token")
+        token_value = self.env['ir.config_parameter'].sudo().get_param("facebook.facebook_token")
         if data["object"] == "page":
             for info in data["entry"]:
                 _logger.info(info["messaging"][0])

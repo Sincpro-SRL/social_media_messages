@@ -22,7 +22,7 @@ class WhatsappConfigSettings(models.TransientModel):
         self.env['ir.config_parameter'].set_param('facebook.facebook_crm', self.facebook_crm)
         self.env['ir.config_parameter'].set_param('facebook.facebook_sales', self.facebook_sales)
         self.env['ir.config_parameter'].set_param('facebook.facebook_inventory', self.facebook_inventory)
-        self.env['ir.config_parameter'].set_param('facebook.facebook_token', self.facebook_token)
+        self.env['ir.config_parameter'].sudo().set_param('facebook.facebook_token', self.facebook_token)
         return res
 
     def get_values(self):
@@ -35,13 +35,12 @@ class WhatsappConfigSettings(models.TransientModel):
         facebook_crm = self.env['ir.config_parameter'].get_param("facebook.facebook_crm")
         facebook_sales = self.env['ir.config_parameter'].get_param("facebook.facebook_sales")
         facebook_inventory = self.env['ir.config_parameter'].get_param("facebook.facebook_inventory")
-        facebook_token = self.env['ir.config_parameter'].get_param("facebook.facebook_token")
+        facebook_token = self.env['ir.config_parameter'].sudo().get_param("facebook.facebook_token")
         res.update({
             'facebook_crm': facebook_crm,
             'facebook_sales': facebook_sales,
             'facebook_inventory': facebook_inventory,
             'facebook_token': facebook_token,
         })
-        print(self.env['ir.config_parameter'].get_param("facebook.facebook_token"))
         return res
 
