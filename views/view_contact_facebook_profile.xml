@@ -6,7 +6,8 @@
       <field name="inherit_id" ref="base.view_partner_form"/>
       <field name="arch" type="xml">
         <xpath expr="//field[@name='vat']" position="after">
-          <field name="ID_facebook"/>
+          <field name="from_messenger" invisible="True"/>
+          <field name="id_facebook" attrs="{'invisible':[('from_messenger', '=', False)]}"/>
         </xpath>
       </field>
     </record>
