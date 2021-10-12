@@ -1,6 +1,4 @@
 import requests
-from odoo.exceptions import ValidationError
-from odoo.exceptions import AccessDenied
 
 def get_info_profile():
     print("mensaje")
