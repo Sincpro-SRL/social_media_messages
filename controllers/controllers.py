@@ -14,9 +14,10 @@ class ControllerWebhookMessenger(http.Controller):
     def webhook(self, **kw):
         data = request.jsonrequest
         if data["object"] == "page":
+            Processor = http.request.env['data.processor'].sudo()
             for info in data["entry"]:
                 _logger.info(info["messaging"][0])
-
+            Processor.data_checker(data)
             return "EVENT_RECEIVED"
         else:
             return Response(status=404)

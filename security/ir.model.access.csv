@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_sincpro_whatsapp,sincpro.whatsapp,model_sincpro_whatsapp,base.group_user,1,1,1,1
+access_create_contact,create.contact,model_create_contact,base.group_user,1,1,1,1
+access_data_processor,data.processor,model_data_processor,base.group_user,1,1,1,1
