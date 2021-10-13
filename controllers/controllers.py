@@ -7,20 +7,19 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-def get_info_profile():
-    return "mensaje"
 
 class ControllerWebhookMessenger(http.Controller):
 
     @http.route('/webhook_messenger', methods=['POST'], type='json', auth="public", csrf=False)
     def webhook(self, **kw):
         data = request.jsonrequest
+        token = self.env['ir.config_parameter'].sudo().get_param("facebook.facebook_token")
         if data["object"] == "page":
             for info in data["entry"]:
                 _logger.info(info["messaging"][0])
-            _logger.info(get_info_profile())
+                get_info_profile(info["messaging"][0], token)
+           
             return "EVENT_RECEIVED"
-            
         else:
             return Response(status=404)
 
