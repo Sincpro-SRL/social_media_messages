@@ -1,4 +1,6 @@
 from odoo import models, fields, api
+from datetime import date, datetime, timedelta
+
 
 class CreateContactMessenger(models.Model):
     _name = 'create.contact'
@@ -7,12 +9,13 @@ class CreateContactMessenger(models.Model):
 
     @api.model
     def create_partner_webhook_event(self, dic_data):
+        res_partner = self.env['res.partner']
         values = {
             'name': f"{dic_data['first_name']} {dic_data['last_name']}",
             'id_facebook': dic_data['id'],
             'from_messenger': True
         }
-        self.env['res.partner'].create(values)
+        return res_partner.create(values)
 
 
 class DataProcessor(models.Model):
@@ -23,35 +26,45 @@ class DataProcessor(models.Model):
     @api.model
     def data_checker(self, data):
         user = self.handler_data(data)
-        print(user)
-        if  not self.user_checker(user.get('id')):
-            self.create_user(user)
-        self.create_opportunity(user)
+        user_res_partner = self.user_checker(user.get('id'))
+        if  not user_res_partner:
+            user_res_partner = self.env['create.contact'].create_partner_webhook_event(user)
+        self.create_opportunity(user_res_partner)
 
     def handler_data(self, data):
         user = {
-            "first_name": "Jairo",
-            "last_name": "Sandoval Velasquez",
+            "first_name": "Edson",
+            "last_name": "Yañez Villa",
             "profile_pic": "https://platform-lookaside.fbsbx.com/platform/profilepic/?psid=4327205417362090&width=1024&ext=1636567735&hash=AeQLwjaETnndOvGzDS0",
-            "id": "4327205417362090",
+            "id": "4327205417362093",
             "message": "mesageee de prueba"
         }
         return user
 
     def user_checker(self, user_id):
-        users = self.env['res.partner'].search([])
-        for user in users:
-            if user.id_facebook == user_id:
+        rest_partner = self.env['res.partner']
+        user = rest_partner.search([('id_facebook', '=', user_id)])
+        if not user['id_facebook'] == user_id:
+            return None
+        return user
+
+    def verify_opportunity(self, crm_lead, name_opportunity):
+        opportunity = crm_lead.search([('name', '=', name_opportunity)])
+        if opportunity['name'] == name_opportunity:
+            created_datetime = opportunity['create_date']
+            time_change = created_datetime + timedelta(days=7)
+            today = datetime.today()
+            if time_change >= today:
                 return True
         return False
 
-    def create_user(self, user):
-        self.env['create.contact'].create_partner_webhook_event(user)
 
     def create_opportunity(self, user):
         crm_lead = self.env['crm.lead']
-        crm_lead.create({
-        'priority': '0',
-        'name': user.get('last_name'),
-        })
-    
+        name = '{}\'s opportunity'.format(user['name'])
+        if not self.verify_opportunity(crm_lead, name): 
+            crm_lead.create({
+                'priority': '1',
+                'name': name,
+                'partner_id': user['id']
+            })
