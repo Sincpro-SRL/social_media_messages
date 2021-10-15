@@ -3,7 +3,7 @@ from odoo import http
 from odoo.http import request
 from odoo.http import Response
 import logging
-#from ..facebook_handler.profile_functions import get_info_profile
+from ..facebook_handler.profile_functions import get_info_profile
 
 _logger = logging.getLogger(__name__)
 
@@ -17,7 +17,8 @@ class ControllerWebhookMessenger(http.Controller):
         if data["object"] == "page":
             for info in data["entry"]:
                 _logger.info(info["messaging"][0])
-                get_info_profile(info["messaging"][0], token)
+                info_profile = get_info_profile(info["messaging"][0], token)
+                _logger.info(info_profile)
            
             return "EVENT_RECEIVED"
         else:
