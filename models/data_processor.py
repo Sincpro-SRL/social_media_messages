@@ -29,12 +29,12 @@ class DataProcessor(models.Model):
         user_res_partner = self.user_checker(user.get('id'))
         if  not user_res_partner:
             user_res_partner = self.env['create.contact'].create_partner_webhook_event(user)
-        self.create_opportunity(user_res_partner)
+        self.create_opportunity(user_res_partner, user.get('message'))
 
     def handler_data(self, data):
         user = {
-            "first_name": "Edson",
-            "last_name": "Yañez Villa",
+            "first_name": "Brandon",
+            "last_name": "Freeman",
             "profile_pic": "https://platform-lookaside.fbsbx.com/platform/profilepic/?psid=4327205417362090&width=1024&ext=1636567735&hash=AeQLwjaETnndOvGzDS0",
             "id": "4327205417362093",
             "message": "mesageee de prueba"
@@ -58,13 +58,14 @@ class DataProcessor(models.Model):
                 return True
         return False
 
-
-    def create_opportunity(self, user):
+    def create_opportunity(self, user, message):
         crm_lead = self.env['crm.lead']
-        name = '{}\'s opportunity'.format(user['name'])
+        name = '{}\'s opportunity Facebook'.format(user['name'])
         if not self.verify_opportunity(crm_lead, name): 
-            crm_lead.create({
+            opportunity = crm_lead.create({
                 'priority': '1',
                 'name': name,
-                'partner_id': user['id']
+                'partner_id': user['id'],
+                'type': 'opportunity'
             })
+            opportunity.message_post(body=message, message_type='comment')
