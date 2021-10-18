@@ -1,0 +1,15 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="id_facebook_contact">
+      <field name="name">id.facebook.contact.view</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='vat']" position="after">
+          <field name="from_messenger" invisible="True"/>
+          <field name="id_facebook" attrs="{'invisible':[('from_messenger', '=', False)]}"/>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>
