@@ -1,5 +1,19 @@
-from odoo import models, fields, api
-from datetime import date, datetime, timedelta
+import requests
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+
+from odoo import models, api
+
+
+FACEBOOK_API = 'https://graph.facebook.com'
+
+
+@dataclass
+class FacebookProfile:
+    first_name: str 
+    last_name: str
+    id: str
+    message: str
 
 
 class CreateContactMessenger(models.Model):
@@ -8,14 +22,47 @@ class CreateContactMessenger(models.Model):
     _auto = False
 
     @api.model
-    def create_partner_webhook_event(self, dic_data):
+    def create_partner_webhook_event(self, user):
         res_partner = self.env['res.partner']
         values = {
-            'name': f"{dic_data['first_name']} {dic_data['last_name']}",
-            'id_facebook': dic_data['id'],
+            'name': f"{user.first_name} {user.last_name}",
+            'id_facebook': user.id,
             'from_messenger': True
         }
         return res_partner.create(values)
+
+
+class FacebookHadler(models.Model):
+    _name = 'facebook.handler'
+    _description = 'Maneja datos de un perfilde usuasrio de facebook'
+    _auto = False
+
+    def get_info_user_profile(self, user_id):
+        token = self.env['ir.config_parameter'].get_param("facebook.facebook_token")
+        if not (token and user_id):
+            raise Exception("Token y usuario invalidos")
+        profile = requests.get(f'{FACEBOOK_API}/{user_id}?access_token={token}')
+        facebook_response = profile.json()
+        return facebook_response
+
+    def get_messaging_data(self, entry_data):
+        for information in entry_data:
+            for key, value in information.items():
+                if key == 'messaging':
+                    return value[0]
+        return None
+
+    @api.model
+    def data_handler(self, data):
+        message_info = self.get_messaging_data(data['entry'])
+        user_id = message_info['sender']['id']
+        user_profile = self.get_info_user_profile(user_id)
+        return FacebookProfile(
+            user_profile['first_name'],
+            user_profile['last_name'],
+            user_profile['id'],
+            message_info['message']
+        )
 
 
 class DataProcessor(models.Model):
@@ -25,21 +72,11 @@ class DataProcessor(models.Model):
 
     @api.model
     def data_checker(self, data):
-        user = self.handler_data(data)
-        user_res_partner = self.user_checker(user.get('id'))
+        user = self.env['facebook.handler'].data_handler(data)
+        user_res_partner = self.user_checker(user.id)
         if  not user_res_partner:
             user_res_partner = self.env['create.contact'].create_partner_webhook_event(user)
-        self.create_opportunity(user_res_partner, user.get('message'))
-
-    def handler_data(self, data):
-        user = {
-            "first_name": "Brandon",
-            "last_name": "Freeman",
-            "profile_pic": "https://platform-lookaside.fbsbx.com/platform/profilepic/?psid=4327205417362090&width=1024&ext=1636567735&hash=AeQLwjaETnndOvGzDS0",
-            "id": "4327205417362093",
-            "message": "mesageee de prueba"
-        }
-        return user
+        self.create_opportunity(user_res_partner, user.message)
 
     def user_checker(self, user_id):
         rest_partner = self.env['res.partner']

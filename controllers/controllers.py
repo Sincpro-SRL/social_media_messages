@@ -9,26 +9,25 @@ _logger = logging.getLogger(__name__)
 
 class ControllerWebhookMessenger(http.Controller):
 
-    @http.route('/webhook_messenger', methods=['POST'], type='json', auth="public", csrf=False)
+    @http.route('/webhook_messenger', methods=['POST'], type='json', auth='public', csrf=False)
     def webhook(self, **kw):
         data = request.jsonrequest
-        if data["object"] == "page":
-            Processor = http.request.env['data.processor'].sudo()
-            for info in data["entry"]:
-                _logger.info(info["messaging"][0])
-            Processor.data_checker(data)
-            return "EVENT_RECEIVED"
+        if data['object'] == 'page':
+            data_processor = http.request.env['data.processor'].sudo()
+            _logger.info('EVENT_RECEIVED')
+            data_processor.data_checker(data)
+            return 'EVENT_RECEIVED'
         else:
             return Response(status=404)
 
-    @http.route('/webhook_messenger', methods=['GET'], auth="public")
+    @http.route('/webhook_messenger', methods=['GET'], auth='public')
     def verificacion_webhook(self, **kw):
-        VERIFY_TOKEN = "Hola_mundo"
+        VERIFY_TOKEN = 'Hola_mundo'
 
         data = request
-        mode = data.params["hub.mode"]
-        token = data.params["hub.verify_token"]
-        challenge = data.params["hub.challenge"]
+        mode = data.params['hub.mode']
+        token = data.params['hub.verify_token']
+        challenge = data.params['hub.challenge']
 
         if mode and token:
             if mode == 'subscribe' and token == VERIFY_TOKEN:
