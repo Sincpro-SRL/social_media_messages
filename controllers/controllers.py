@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from odoo import http
 from odoo.http import request
 from odoo.http import Response
@@ -16,7 +15,7 @@ class ControllerWebhookMessenger(http.Controller):
         if data["object"] == "page":
             for info in data["entry"]:
                 _logger.info(info["messaging"][0])
-
+                
             return "EVENT_RECEIVED"
         else:
             return Response(status=404)
