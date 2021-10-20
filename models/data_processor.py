@@ -65,6 +65,36 @@ class FacebookHadler(models.Model):
         )
 
 
+class CrmMaganger(models.Model):
+    _name = 'crm.manager'
+    _description = 'Management the processes to create and  verify an opportunity in CRM'
+    _auto = False
+
+    def verify_opportunity(self, crm_lead, name_opportunity):
+        opportunity = crm_lead.search([('name', '=', name_opportunity)])
+        if opportunity['name'] == name_opportunity:
+            created_datetime = opportunity['create_date']
+            time_change = created_datetime + timedelta(days=7)
+            today = datetime.today()
+            if time_change >= today:
+                return opportunity
+        return None
+
+    @api.model
+    def create_opportunity(self, user, message):
+        crm_lead = self.env['crm.lead']
+        name = '{}\'s opportunity Facebook'.format(user['name'])
+        opportunity = self.verify_opportunity(crm_lead, name)
+        if not opportunity : 
+            opportunity = crm_lead.create({
+                'priority': '1',
+                'name': name,
+                'partner_id': user['id'],
+                'type': 'opportunity'
+            })
+        opportunity.message_post(body=message, message_type='comment')
+
+
 class DataProcessor(models.Model):
     _name = 'data.processor'
     _description = 'Data processor about message of webhook facebook messenger'
@@ -76,7 +106,7 @@ class DataProcessor(models.Model):
         user_res_partner = self.user_checker(user.id)
         if  not user_res_partner:
             user_res_partner = self.env['create.contact'].create_partner_webhook_event(user)
-        self.create_opportunity(user_res_partner, user.message)
+        self.env['crm.manager'].create_opportunity(user_res_partner, user.message)
 
     def user_checker(self, user_id):
         rest_partner = self.env['res.partner']
@@ -84,25 +114,3 @@ class DataProcessor(models.Model):
         if not user['id_facebook'] == user_id:
             return None
         return user
-
-    def verify_opportunity(self, crm_lead, name_opportunity):
-        opportunity = crm_lead.search([('name', '=', name_opportunity)])
-        if opportunity['name'] == name_opportunity:
-            created_datetime = opportunity['create_date']
-            time_change = created_datetime + timedelta(days=7)
-            today = datetime.today()
-            if time_change >= today:
-                return True
-        return False
-
-    def create_opportunity(self, user, message):
-        crm_lead = self.env['crm.lead']
-        name = '{}\'s opportunity Facebook'.format(user['name'])
-        if not self.verify_opportunity(crm_lead, name): 
-            opportunity = crm_lead.create({
-                'priority': '1',
-                'name': name,
-                'partner_id': user['id'],
-                'type': 'opportunity'
-            })
-            opportunity.message_post(body=message, message_type='comment')
