@@ -1,10 +1,11 @@
 import requests
+import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 
 from odoo import models, api
 
-
+_logger = logging.getLogger(__name__)
 FACEBOOK_API = 'https://graph.facebook.com'
 
 
@@ -92,6 +93,7 @@ class CrmMaganger(models.Model):
                 'partner_id': user['id'],
                 'type': 'opportunity'
             })
+            _logger.info(f'New opportunity created: {name}')
         opportunity.message_post(body=message, message_type='comment')
 
 
@@ -106,6 +108,7 @@ class DataProcessor(models.Model):
         user_res_partner = self.user_checker(user.id)
         if  not user_res_partner:
             user_res_partner = self.env['create.contact'].create_partner_webhook_event(user)
+        _logger.info(user.message)
         self.env['crm.manager'].create_opportunity(user_res_partner, user.message)
 
     def user_checker(self, user_id):
