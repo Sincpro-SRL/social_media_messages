@@ -62,7 +62,7 @@ class FacebookHadler(models.Model):
             user_profile['first_name'],
             user_profile['last_name'],
             user_profile['id'],
-            message_info['message']
+            message_info['message']['text']
         )
 
 
