@@ -84,7 +84,7 @@ class CrmMaganger(models.Model):
     @api.model
     def create_opportunity(self, user, message):
         crm_lead = self.env['crm.lead']
-        name = '{}\'s opportunity Facebook'.format(user['name'])
+        name = f'{user["name"]}\'s opportunity Facebook'
         opportunity = self.verify_opportunity(crm_lead, name)
         if not opportunity : 
             opportunity = crm_lead.create({
