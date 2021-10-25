@@ -6,6 +6,7 @@
         'account',
         'sale',
         'crm',
+        'mail',
     ],
     'data': [
         'views/settings_whatsapp.xml',
@@ -14,5 +15,8 @@
         'views/view_order_form_whatsapp_button.xml',
         'views/view_crm_lead_form_whatsapp_button.xml',
         'views/view_contact_facebook_profile.xml',
+    ],
+    'qweb': [
+        'static/src/xml/chatter_messenger.xml',
     ],
 }
