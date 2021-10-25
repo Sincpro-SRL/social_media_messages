@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xml:space="preserve">
+    <t t-inherit="mail.ChatterTopbar" t-inherit-mode="extension">
+        <xpath
+            expr="//*[@class='btn btn-link o_ChatterTopbar_button o_ChatterTopbar_buttonScheduleActivity']"
+            position="after"
+        >
+            <button class="btn btn-link o_ChatterTopbar_button o_ChatterTopbar_buttonMessenger"
+                type="button"
+                t-att-class="{
+                    'o-active': chatter.isComposerVisible and chatter.composer and !chatter.composer.isLog,
+                    'o-bordered': chatter.hasExternalBorder,
+                }"
+                t-att-disabled="chatter.isDisabled"
+            >
+                Messenger
+            </button>
+        </xpath>
+    </t>
+</template>
