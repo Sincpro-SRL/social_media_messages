@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template xml:space="preserve">
     <t t-inherit="mail.ChatterTopbar" t-inherit-mode="extension">
-        <xpath
-            expr="//*[@class='btn btn-link o_ChatterTopbar_button o_ChatterTopbar_buttonScheduleActivity']"
-            position="after"
+        <xpath expr="//*[@class='btn btn-link o_ChatterTopbar_button o_ChatterTopbar_buttonScheduleActivity']"
+               position="after"
         >
-            <button class="btn btn-link o_ChatterTopbar_button o_ChatterTopbar_buttonMessenger"
-                type="button"
-                t-att-disabled="chatter.isDisabled"
-            >
-                Messenger
-            </button>
+            <t t-if="chatter.threadModel == 'crm.lead'">
+                <button class="btn btn-link o_ChatterTopbar_button o_ChatterTopbar_buttonMessenger"
+                        type="button"
+                        t-att-disabled="chatter.isDisabled"
+                        t-on-click="_onClickMessenger"
+                >
+                    Messenger
+                </button>
+            </t>
+<!--            <t t-foreach="chatter.env.session" t-as="i">-->
+<!--                <t t-log="i"/>-->
+<!--            </t>-->
+<!--            <t t-log="chatter.env.session['user_context']"/>-->
         </xpath>
     </t>
 </template>

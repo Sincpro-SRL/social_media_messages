@@ -11,7 +11,7 @@ FACEBOOK_API = 'https://graph.facebook.com'
 
 @dataclass
 class FacebookProfile:
-    first_name: str 
+    first_name: str
     last_name: str
     id: str
     message: str
@@ -19,7 +19,7 @@ class FacebookProfile:
 
 class CreateContactMessenger(models.Model):
     _name = 'create.contact'
-    _description = 'Creacion de contacto desde el Webhook de messenger'
+    _description = 'Creacion de contacto apartir del evento del Webhook de messenger'
     _auto = False
 
     @api.model
@@ -35,7 +35,7 @@ class CreateContactMessenger(models.Model):
 
 class FacebookHadler(models.Model):
     _name = 'facebook.handler'
-    _description = 'Maneja datos de un perfilde usuasrio de facebook'
+    _description = 'Maneja datos de un perfil de usuario de facebook'
     _auto = False
 
     def get_info_user_profile(self, user_id):
@@ -68,7 +68,7 @@ class FacebookHadler(models.Model):
 
 class CrmMaganger(models.Model):
     _name = 'crm.manager'
-    _description = 'Management the processes to create and  verify an opportunity in CRM'
+    _description = 'Management the processes to create and verify an opportunity in CRM'
     _auto = False
 
     def verify_opportunity(self, crm_lead, name_opportunity):
@@ -86,12 +86,13 @@ class CrmMaganger(models.Model):
         crm_lead = self.env['crm.lead']
         name = f'{user["name"]}\'s opportunity Facebook'
         opportunity = self.verify_opportunity(crm_lead, name)
-        if not opportunity : 
+        if not opportunity:
             opportunity = crm_lead.create({
                 'priority': '1',
                 'name': name,
                 'partner_id': user['id'],
-                'type': 'opportunity'
+                'type': 'opportunity',
+                'from_messenger': True
             })
             _logger.info(f'New opportunity created: {name}')
         opportunity.message_post(body=message, message_type='comment')
@@ -106,7 +107,7 @@ class DataProcessor(models.Model):
     def data_checker(self, data):
         user = self.env['facebook.handler'].data_handler(data)
         user_res_partner = self.user_checker(user.id)
-        if  not user_res_partner:
+        if not user_res_partner:
             user_res_partner = self.env['create.contact'].create_partner_webhook_event(user)
         _logger.info(user.message)
         self.env['crm.manager'].create_opportunity(user_res_partner, user.message)
