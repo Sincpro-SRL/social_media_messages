@@ -4,7 +4,7 @@
         <xpath expr="//*[@class='btn btn-link o_ChatterTopbar_button o_ChatterTopbar_buttonScheduleActivity']"
                position="after"
         >
-            <t t-if="chatter.threadModel == 'crm.lead'">
+            <t t-if="chatter.__values.isFromMessenger and chatter.__values.threadModel == 'crm.lead'">
                 <button class="btn btn-link o_ChatterTopbar_button o_ChatterTopbar_buttonMessenger"
                         type="button"
                         t-att-disabled="chatter.isDisabled"
@@ -13,10 +13,10 @@
                     Messenger
                 </button>
             </t>
-<!--            <t t-foreach="chatter.env.session" t-as="i">-->
+<!--            <t t-foreach="chatter.__values.threadModel" t-as="i">-->
 <!--                <t t-log="i"/>-->
 <!--            </t>-->
-<!--            <t t-log="chatter.env.session['user_context']"/>-->
+<!--            <t t-log="chatter.__values.isFromMessenger"/>-->
         </xpath>
     </t>
 </template>

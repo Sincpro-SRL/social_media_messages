@@ -66,7 +66,7 @@ class FacebookHadler(models.Model):
         )
 
 
-class CrmMaganger(models.Model):
+class CrmManager(models.Model):
     _name = 'crm.manager'
     _description = 'Management the processes to create and verify an opportunity in CRM'
     _auto = False
