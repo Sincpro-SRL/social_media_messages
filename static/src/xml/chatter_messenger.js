@@ -19,7 +19,7 @@ odoo.define(
                 "sincpro_whatsapp/static/src/xml/chatter_messenger.js",
             {
                 _onClickMessenger(ev) {
-                    console.log("Entrando a Messenger")
+                    console.log("Entrando a Messenger");
                 },
             }
         );
@@ -376,10 +376,10 @@ odoo.define(
         rpc.query({
             model: "crm.lead",
             method: "get_data_from_model",
-            args: [],
+            args: [this.props.threadId],
         }).then((result) => {
-            values.isFromMessenger = result;
-            console.log(result);
+            values.isFromMessenger = result['from_messenger'];
+//            console.log(result);Z
             if (values.threadId === undefined) {
                 values.threadId = clear();
             }
