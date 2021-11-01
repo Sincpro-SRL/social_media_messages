@@ -12,6 +12,7 @@ odoo.define(
         const {registry} = require("mail/static/src/model/model_core.js");
         const {patch} = require("web.utils");
         const {attr, many2one, one2one} = require("mail/static/src/model/model_field.js");
+        let props_env = null;
 
 
         registry["mail.chatter"].factory = function (dependencies) {
@@ -366,54 +367,46 @@ odoo.define(
                 "sincpro_whatsapp/static/src/xml/chatter_messenger.js",
             {
                 _onClickMessenger(ev) {
-                    const action = {
-                        type: 'ir.actions.act_window',
-                        name: this.env._t("Enviar mensaje a Facebook"),
-                        res_model: 'messenger.messenger',
-                        view_mode: 'form',
-                        views: [[false, 'form']],
-                        target: 'new',
-                        context: {
-                            default_res_id: this.chatter.thread.id,
-                            default_res_model: this.chatter.thread.model,
-                        },
-                        res_id: false,
-                    };
-                    return this.env.bus.trigger('do-action', {
-                        action,
-                        options: {
-                            on_close: () => {
-                                this.trigger('reload', { keepChanges: true });
-                            },
-                        },
-                    });
+//                    const action = {
+//                        type: 'ir.actions.act_window',
+//                        name: this.env._t("Enviar mensaje a Facebook"),
+//                        res_model: 'messenger.message',
+//                        view_mode: 'form',
+//                        views: [[false, 'form']],
+//                        target: 'new',
+//                        context: {
+//                            default_res_id: this.chatter.thread.id,
+//                            default_res_model: this.chatter.thread.model,
+//                        },
+//                        res_id: false,
+//                    };
+//                    return this.env.bus.trigger('do-action', {
+//                        action,
+//                        options: {
+//                            on_close: () => {
+//                                this.trigger('reload', { keepChanges: true });
+//                            },
+//                        },
+//                    });
                     let test_message = "Hola desde JavaScript";
                     rpc.query({
-                        model: "crm.lead",
-                        method: "get_data_from_model",
-                        args: [props.threadId],
+                        model: "facebook.handler",
+                        method: "handler_send_message",
+                        args: [{'message': test_message, 'id': props_env.threadId}]
                     }).then((result) => {
-                        values.isFromMessenger = result['from_messenger'];
-                        if (values.threadId === undefined) {
-                            values.threadId = clear();
-                        }
-                        if (!this.chatter) {
-                            this.chatter = this.env.models["mail.chatter"].create(values);
-                        } else {
-                            this.chatter.update(values);
-                        }
+                        console.log(result);
                     });
-
                 },
             }
         );
 
         container.prototype._insertFromProps = function (props) {
-            const values = Object.assign({}, props);
+            props_env = props;
+            const values = Object.assign({}, props_env);
             rpc.query({
                 model: "crm.lead",
                 method: "get_data_from_model",
-                args: [props.threadId],
+                args: [props_env.threadId],
             }).then((result) => {
                 values.isFromMessenger = result['from_messenger'];
                 if (values.threadId === undefined) {

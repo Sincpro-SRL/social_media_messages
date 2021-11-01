@@ -10,7 +10,6 @@ class InheritCRMLead(models.Model):
     @api.model
     def get_data_from_model(self, id_opportunity):
         value = self.search([('id', '=', id_opportunity)]).from_messenger_opportunity
-        print(value)
         return {
             "id_opportunity": id_opportunity,
             "from_messenger": value,

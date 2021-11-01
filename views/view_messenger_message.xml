@@ -8,7 +8,7 @@
                 <sheet string="Activity">
                     <field name="note" placeholder="Escribe un mensaje..."/>
                     <footer>
-                        <button string="Enviar mensaje" name="send_message_form" type="object" class="btn-primary"
+                        <button string="Enviar mensaje" name="send_message_form" type="object" class="btn-primary"/>
                         <button string="Cancelar" class="btn-secondary" special="cancel" />
                     </footer>
                 </sheet>

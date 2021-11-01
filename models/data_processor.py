@@ -1,9 +1,11 @@
+import json
+
 import requests
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 
-from odoo import models, api
+from odoo import models, api, fields
 
 _logger = logging.getLogger(__name__)
 FACEBOOK_API = 'https://graph.facebook.com'
@@ -64,6 +66,33 @@ class FacebookHandler(models.Model):
             user_profile['id'],
             message_info['message']['text']
         )
+
+    @api.model
+    def handler_send_message(self, data):
+        print(data)
+        self.send_message(data)
+        return 'MESSAGE_SENT'
+
+    def send_message(self, data):
+        crm_id = self.env['crm.lead'].search([('id', '=', data['id'])])
+        token = self.env['ir.config_parameter'].get_param("facebook.facebook_token")
+        headers = {'Content-type': 'application/json'}
+        values = {
+            "messaging_type": "MESSAGE_TAG",
+            "recipient": {
+                "id": f"{crm_id.partner_id.id_facebook}"
+            },
+            "message": {
+                "text": "hello, world!"
+            }
+        }
+        print(values)
+        response = requests.post(
+            f"{FACEBOOK_API}/v12.0/me/messages?access_token=f{token}",
+            data=json.dumps(values),
+            headers=headers
+        )
+        print(response)
 
 
 class CrmManager(models.Model):

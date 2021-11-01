@@ -10,7 +10,7 @@
                         t-att-disabled="chatter.isDisabled"
                         t-on-click="_onClickMessenger"
                 >
-                    Messenger
+                    Mensaje a Messenger
                 </button>
             </t>
 <!--            <t t-foreach="chatter.__values.threadModel" t-as="i">-->
