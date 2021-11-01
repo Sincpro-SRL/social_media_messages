@@ -14,16 +14,6 @@ odoo.define(
         const {attr, many2one, one2one} = require("mail/static/src/model/model_field.js");
 
 
-        patch(
-            components.ChatterTopbar,
-                "sincpro_whatsapp/static/src/xml/chatter_messenger.js",
-            {
-                _onClickMessenger(ev) {
-                    console.log("Entrando a Messenger");
-                },
-            }
-        );
-
         registry["mail.chatter"].factory = function (dependencies) {
             const getThreadNextTemporaryId = (function () {
                 let tmpId = 0;
@@ -371,24 +361,70 @@ odoo.define(
             return Chatter;
         };
 
+        patch(
+            components.ChatterTopbar,
+                "sincpro_whatsapp/static/src/xml/chatter_messenger.js",
+            {
+                _onClickMessenger(ev) {
+                    const action = {
+                        type: 'ir.actions.act_window',
+                        name: this.env._t("Enviar mensaje a Facebook"),
+                        res_model: 'messenger.messenger',
+                        view_mode: 'form',
+                        views: [[false, 'form']],
+                        target: 'new',
+                        context: {
+                            default_res_id: this.chatter.thread.id,
+                            default_res_model: this.chatter.thread.model,
+                        },
+                        res_id: false,
+                    };
+                    return this.env.bus.trigger('do-action', {
+                        action,
+                        options: {
+                            on_close: () => {
+                                this.trigger('reload', { keepChanges: true });
+                            },
+                        },
+                    });
+                    let test_message = "Hola desde JavaScript";
+                    rpc.query({
+                        model: "crm.lead",
+                        method: "get_data_from_model",
+                        args: [props.threadId],
+                    }).then((result) => {
+                        values.isFromMessenger = result['from_messenger'];
+                        if (values.threadId === undefined) {
+                            values.threadId = clear();
+                        }
+                        if (!this.chatter) {
+                            this.chatter = this.env.models["mail.chatter"].create(values);
+                        } else {
+                            this.chatter.update(values);
+                        }
+                    });
+
+                },
+            }
+        );
+
         container.prototype._insertFromProps = function (props) {
-        const values = Object.assign({}, props);
-        rpc.query({
-            model: "crm.lead",
-            method: "get_data_from_model",
-            args: [this.props.threadId],
-        }).then((result) => {
-            values.isFromMessenger = result['from_messenger'];
-//            console.log(result);Z
-            if (values.threadId === undefined) {
-                values.threadId = clear();
-            }
-            if (!this.chatter) {
-                this.chatter = this.env.models["mail.chatter"].create(values);
-            } else {
-                this.chatter.update(values);
-            }
-        });
+            const values = Object.assign({}, props);
+            rpc.query({
+                model: "crm.lead",
+                method: "get_data_from_model",
+                args: [props.threadId],
+            }).then((result) => {
+                values.isFromMessenger = result['from_messenger'];
+                if (values.threadId === undefined) {
+                    values.threadId = clear();
+                }
+                if (!this.chatter) {
+                    this.chatter = this.env.models["mail.chatter"].create(values);
+                } else {
+                    this.chatter.update(values);
+                }
+            });
         }
     }
 );

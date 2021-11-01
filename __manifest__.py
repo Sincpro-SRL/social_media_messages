@@ -10,6 +10,7 @@
     ],
     'data': [
         'views/templates.xml',
+        'views/messenger_message.xml',
         'views/settings_whatsapp.xml',
         'security/ir.model.access.csv',
         'views/view_move_form_whatsapp_button.xml',

@@ -33,7 +33,7 @@ class CreateContactMessenger(models.Model):
         return res_partner.create(values)
 
 
-class FacebookHadler(models.Model):
+class FacebookHandler(models.Model):
     _name = 'facebook.handler'
     _description = 'Maneja datos de un perfil de usuario de facebook'
     _auto = False
