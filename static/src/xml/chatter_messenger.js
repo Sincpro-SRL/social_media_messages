@@ -367,34 +367,26 @@ odoo.define(
                 "sincpro_whatsapp/static/src/xml/chatter_messenger.js",
             {
                 _onClickMessenger(ev) {
-//                    const action = {
-//                        type: 'ir.actions.act_window',
-//                        name: this.env._t("Enviar mensaje a Facebook"),
-//                        res_model: 'messenger.message',
-//                        view_mode: 'form',
-//                        views: [[false, 'form']],
-//                        target: 'new',
-//                        context: {
-//                            default_res_id: this.chatter.thread.id,
-//                            default_res_model: this.chatter.thread.model,
-//                        },
-//                        res_id: false,
-//                    };
-//                    return this.env.bus.trigger('do-action', {
-//                        action,
-//                        options: {
-//                            on_close: () => {
-//                                this.trigger('reload', { keepChanges: true });
-//                            },
-//                        },
-//                    });
-                    let test_message = "Hola desde JavaScript";
-                    rpc.query({
-                        model: "facebook.handler",
-                        method: "handler_send_message",
-                        args: [{'message': test_message, 'id': props_env.threadId}]
-                    }).then((result) => {
-                        console.log(result);
+                    const action = {
+                        type: 'ir.actions.act_window',
+                        name: this.env._t("Enviar mensaje a Facebook"),
+                        res_model: 'messenger.message',
+                        view_mode: 'form',
+                        views: [[false, 'form']],
+                        target: 'new',
+                        context: {
+                            default_res_id: this.chatter.thread.id,
+                            default_res_model: this.chatter.thread.model,
+                        },
+                        res_id: false,
+                    };
+                    return this.env.bus.trigger('do-action', {
+                        action,
+                        options: {
+                            on_close: () => {
+                                this.trigger('reload', { keepChanges: true });
+                            },
+                        },
                     });
                 },
             }

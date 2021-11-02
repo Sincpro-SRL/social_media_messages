@@ -67,14 +67,8 @@ class FacebookHandler(models.Model):
             message_info['message']['text']
         )
 
-    @api.model
     def handler_send_message(self, data):
-        print(data)
-        self.send_message(data)
-        return 'MESSAGE_SENT'
-
-    def send_message(self, data):
-        crm_id = self.env['crm.lead'].search([('id', '=', data['id'])])
+        crm_id = self.env['crm.lead'].search([('id', '=', data['crm_id_opportunity'])])
         token = self.env['ir.config_parameter'].get_param("facebook.facebook_token")
         headers = {'Content-type': 'application/json'}
         values = {
@@ -83,8 +77,8 @@ class FacebookHandler(models.Model):
                 "id": f"{crm_id.partner_id.id_facebook}"
             },
             "message": {
-                "text": "hello, world!"
-            }
+                "text": data['message']
+            },
         }
         print(values)
         response = requests.post(
