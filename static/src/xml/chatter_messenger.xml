@@ -13,10 +13,6 @@
                     Mensaje a Messenger
                 </button>
             </t>
-<!--            <t t-foreach="chatter.__values.threadModel" t-as="i">-->
-<!--                <t t-log="i"/>-->
-<!--            </t>-->
-<!--            <t t-log="chatter.__values.isFromMessenger"/>-->
         </xpath>
     </t>
 </template>

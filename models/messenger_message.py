@@ -12,8 +12,4 @@ class MessengerMessage(models.Model):
         }
         self.env['facebook.handler'].handler_send_message(data)
 
-    # @api.model
-    # def render_window_message(self):
-    #     self.env['facebook.handler'].handler_send_message(self, "Hola")
-
     note = fields.Text('Note')
