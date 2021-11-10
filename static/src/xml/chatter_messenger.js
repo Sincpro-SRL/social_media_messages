@@ -1,5 +1,5 @@
 odoo.define(
-    "sincpro_whatsapp/static/src/xml/chatter_messenger.js",
+    "social_media_messages/static/src/xml/chatter_messenger.js",
     function (require) {
         "use strict";
 

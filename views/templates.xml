@@ -8,7 +8,7 @@
         <xpath expr="." position="inside">
             <script
                 type="text/javascript"
-                src="/sincpro_whatsapp/static/src/xml/chatter_messenger.js"
+                src="/social_media_messages/static/src/xml/chatter_messenger.js"
             />
         </xpath>
     </template>

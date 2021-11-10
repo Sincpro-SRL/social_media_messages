@@ -71,7 +71,6 @@ class FacebookHandler(models.Model):
         token = self.env['ir.config_parameter'].get_param("facebook.facebook_token")
         headers = {'Content-type': 'application/json'}
         values = {
-            "messaging_type": "MESSAGE_TAG",
             "recipient": {
                 "id": f"{opportunity.partner_id.id_facebook}"
             },
@@ -79,14 +78,13 @@ class FacebookHandler(models.Model):
                 "text": data['message']
             },
         }
-        print(values)
         response = requests.post(
-            f"{FACEBOOK_API}/v12.0/me/messages?access_token=f{token}",
+            f"{FACEBOOK_API}/v12.0/me/messages?access_token={token}",
             data=json.dumps(values),
             headers=headers,
         )
-        print(response)
-        opportunity.message_post(body=f"MESSENGER: {data['message']}")
+        _logger.info(response)
+        opportunity.message_post(body=f"Messenger: {data['message']}")
 
 
 class CrmManager(models.Model):
