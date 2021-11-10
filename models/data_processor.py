@@ -1,5 +1,4 @@
 import json
-
 import requests
 import logging
 from dataclasses import dataclass
@@ -43,7 +42,7 @@ class FacebookHandler(models.Model):
     def get_info_user_profile(self, user_id):
         token = self.env['ir.config_parameter'].get_param("facebook.facebook_token")
         if not (token and user_id):
-            raise Exception("Token y usuario invalidos")
+            raise Exception("Token y/o usuario messenger no existe(n)")
         profile = requests.get(f'{FACEBOOK_API}/{user_id}?access_token={token}')
         facebook_response = profile.json()
         return facebook_response
@@ -116,7 +115,7 @@ class CrmManager(models.Model):
                 'name': name,
                 'partner_id': user['id'],
                 'type': 'opportunity',
-                'from_messenger': True
+                'from_messenger_opportunity': True
             })
             _logger.info(f'New opportunity created: {name}')
         opportunity.message_post(body=message, message_type='comment')

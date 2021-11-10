@@ -12,9 +12,13 @@ class ControllerWebhookMessenger(http.Controller):
     @http.route('/webhook_messenger', methods=['POST'], type='json', auth='public', csrf=False)
     def webhook(self, **kw):
         data = request.jsonrequest
+        _logger.info(data)
         if data['object'] == 'page':
             data_processor = http.request.env['data.processor'].sudo()
-            data_processor.data_checker(data)
+            try:
+                data_processor.data_checker(data)
+            except:
+                print("Primer mensaje")
             return 'EVENT_RECEIVED'
         else:
             return Response(status=404)
