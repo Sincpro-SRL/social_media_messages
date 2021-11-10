@@ -18,7 +18,7 @@ class ControllerWebhookMessenger(http.Controller):
             try:
                 data_processor.data_checker(data)
             except:
-                print("Primer mensaje")
+                pass
             return 'EVENT_RECEIVED'
         else:
             return Response(status=404)
