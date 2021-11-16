@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from odoo import models, api, fields
 
 from ..dispatcher.dispatcher import dispatch
-from .constant import FB_GET_PROFILE, FB_SEND_MESSAGE
+from ..dispatcher.actions import FB_GET_PROFILE, FB_SEND_MESSAGE
 
 _logger = logging.getLogger(__name__)
 

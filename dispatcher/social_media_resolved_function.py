@@ -1,7 +1,7 @@
 import json
 import requests
 
-from ..models.constant import FACEBOOK_API
+from .actions import FACEBOOK_API
 
 def fb_get_profile(**kargs):
     user_id = kargs['USER_ID']

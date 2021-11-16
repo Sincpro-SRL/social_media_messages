@@ -1,6 +1,10 @@
-from .social_media_dispatch import fb_get_profile, fb_send_message
+import logging
 
-from ..models.constant import FB_GET_PROFILE, FB_SEND_MESSAGE
+from .social_media_resolved_function import fb_get_profile, fb_send_message
+
+from .actions import FB_GET_PROFILE, FB_SEND_MESSAGE
+
+_logger = logging.getLogger(__name__)
 
 dispatcher = {
     FB_SEND_MESSAGE: fb_send_message,
@@ -9,6 +13,6 @@ dispatcher = {
 
 def dispatch(action, **kargs):
     try:
-        dispatcher[action](kargs)
+        return dispatcher[action](kargs)
     except:
-        print('Error key Action')
+        _logger.info('Error key Action')
