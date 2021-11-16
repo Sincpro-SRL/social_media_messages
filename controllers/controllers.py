@@ -14,14 +14,11 @@ class ControllerWebhookMessenger(http.Controller):
         data = request.jsonrequest
         _logger.info(data)
         if data['object'] == 'page':
-            test = http.request.env['handler.messenger'].sudo()
-            test.handler_body(data)
-
-            # data_processor = http.request.env['data.processor'].sudo()
-            # try:
-            #     data_processor.data_checker(data)
-            # except:
-            #     pass
+            data_processor = http.request.env['data.processor'].sudo()
+            try:
+                data_processor.data_checker(data)
+            except:
+                pass
             return 'EVENT_RECEIVED'
         else:
             return Response(status=404)
