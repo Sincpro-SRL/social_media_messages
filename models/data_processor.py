@@ -1,13 +1,13 @@
-import json
-import requests
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 
 from odoo import models, api, fields
 
+from ..dispatcher.dispatcher import dispatch
+from .constant import FB_GET_PROFILE, FB_SEND_MESSAGE
+
 _logger = logging.getLogger(__name__)
-FACEBOOK_API = 'https://graph.facebook.com'
 
 
 @dataclass
@@ -39,13 +39,7 @@ class FacebookHandler(models.Model):
     _description = 'Maneja datos de un perfil de usuario de facebook'
     _auto = False
 
-    def get_info_user_profile(self, user_id):
-        token = self.env['ir.config_parameter'].get_param("facebook.facebook_token")
-        if not (token and user_id):
-            raise Exception("Token y/o usuario messenger no existe(n)")
-        profile = requests.get(f'{FACEBOOK_API}/{user_id}?access_token={token}')
-        facebook_response = profile.json()
-        return facebook_response
+    note = fields.Text('Note')
 
     def get_messaging_data(self, entry_data):
         for information in entry_data:
@@ -56,9 +50,10 @@ class FacebookHandler(models.Model):
 
     @api.model
     def data_handler(self, data):
+        token = self.env['ir.config_parameter'].get_param("facebook.facebook_token")
         message_info = self.get_messaging_data(data['entry'])
         user_id = message_info['sender']['id']
-        user_profile = self.get_info_user_profile(user_id)
+        user_profile = dispatch(FB_GET_PROFILE, USER_ID=user_id, TOKEN=token)
         return FacebookProfile(
             user_profile['first_name'],
             user_profile['last_name'],
@@ -66,25 +61,16 @@ class FacebookHandler(models.Model):
             message_info['message']['text']
         )
 
-    def handler_send_message(self, data):
-        opportunity = self.env['crm.lead'].search([('id', '=', data['crm_id_opportunity'])])
+    def send_message(self):
         token = self.env['ir.config_parameter'].get_param("facebook.facebook_token")
-        headers = {'Content-type': 'application/json'}
-        values = {
-            "recipient": {
-                "id": f"{opportunity.partner_id.id_facebook}"
-            },
-            "message": {
-                "text": data['message']
-            },
+        data = {
+            'crm_id_opportunity': self.env.context['default_res_id'],
+            'message': self.note
         }
-        response = requests.post(
-            f"{FACEBOOK_API}/v12.0/me/messages?access_token={token}",
-            data=json.dumps(values),
-            headers=headers,
-        )
-        _logger.info(response)
+        opportunity = self.env['crm.lead'].search([('id', '=', data['crm_id_opportunity'])])
+        message = dispatch(FB_SEND_MESSAGE, DATA=data, FB_ID=opportunity.partner_id.id_facebook, TOKEN=token)
         opportunity.message_post(body=f"Messenger: {data['message']}")
+        _logger.info(f'Messeger: {message}')
 
 
 class CrmManager(models.Model):

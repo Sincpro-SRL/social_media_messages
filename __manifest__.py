@@ -21,4 +21,5 @@
     'qweb': [
         'static/src/xml/chatter_messenger.xml',
     ],
+    'application': True,
 }
