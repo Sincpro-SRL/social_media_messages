@@ -53,7 +53,7 @@ class FacebookHandler(models.Model):
         token = self.env['ir.config_parameter'].get_param("facebook.facebook_token")
         message_info = self.get_messaging_data(data['entry'])
         user_id = message_info['sender']['id']
-        user_profile = dispatch(FB_GET_PROFILE, USER_ID=user_id, TOKEN=token)
+        user_profile = dispatch(FB_GET_PROFILE, user_id=user_id, token=token)
         return FacebookProfile(
             user_profile['first_name'],
             user_profile['last_name'],
@@ -68,7 +68,7 @@ class FacebookHandler(models.Model):
             'message': self.note
         }
         opportunity = self.env['crm.lead'].search([('id', '=', data['crm_id_opportunity'])])
-        message = dispatch(FB_SEND_MESSAGE, DATA=data, FB_ID=opportunity.partner_id.id_facebook, TOKEN=token)
+        message = dispatch(FB_SEND_MESSAGE, data=data, id_facebook=opportunity.partner_id.id_facebook, token=token)
         opportunity.message_post(body=f"Messenger: {data['message']}")
         _logger.info(f'Messeger: {message}')
 

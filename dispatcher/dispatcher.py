@@ -11,8 +11,8 @@ dispatcher = {
     FB_GET_PROFILE: fb_get_profile
 }
 
-def dispatch(action, **kargs):
+def dispatch(action, **kwargs):
     try:
-        return dispatcher[action](kargs)
+        return dispatcher[action](**kwargs)
     except:
         _logger.info('Error key Action')
