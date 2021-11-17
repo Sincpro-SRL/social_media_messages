@@ -14,5 +14,7 @@ dispatcher = {
 def dispatch(action, **kwargs):
     try:
         return dispatcher[action](**kwargs)
-    except:
-        _logger.info('Error key Action')
+    except KeyError as err:
+        _logger.warn('Key Error: Action no defined in the dispathcer module {err}')
+    except BaseException as err:
+        _logger.warning(f'OOps: Unexpected Error {err}')

@@ -37,7 +37,6 @@ class CreateContactMessenger(models.Model):
 class FacebookHandler(models.Model):
     _name = 'facebook.handler'
     _description = 'Maneja datos de un perfil de usuario de facebook'
-    _auto = False
 
     note = fields.Text('Note')
 
