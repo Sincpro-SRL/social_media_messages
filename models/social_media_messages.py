@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*
 from datetime import datetime
-from odoo import models, fields, api
+from odoo import models, fields
 
 
-class HandlerMessenger(models.Model):
-    _name = 'handler.messenger'
-    _description = "Manejador de información messenger Webhook"
+class ManagementMessage(models.Model):
+    _name = 'management.message'
+    _description = "Organización de información del mensaje de messenger Webhook"
 
-    def handler_body(self, data):
+    def management_body(self, data):
         """
         :param data:
             {
