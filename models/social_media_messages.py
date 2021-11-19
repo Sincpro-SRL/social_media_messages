@@ -29,6 +29,6 @@ class ManagementData(models.Model):
     status_message = fields.Char(string="Estado del mensaje", require=True)
     attempts = fields.Integer(string="Número de intentos de envío")
     file_attached = fields.Binary(string="Archivo adjunto")
-    contact = fields.Many2many("res.partner", "", string="Contacto Asociado al mensaje")
+    contact = fields.Many2one("res.partner", string="Contacto Asociado al mensaje")
 
 
