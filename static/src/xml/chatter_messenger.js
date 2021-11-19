@@ -370,7 +370,7 @@ odoo.define(
                     const action = {
                         type: 'ir.actions.act_window',
                         name: this.env._t("Enviar mensaje a Facebook"),
-                        res_model: 'messenger.message',
+                        res_model: 'facebook.handler',
                         view_mode: 'form',
                         views: [[false, 'form']],
                         target: 'new',

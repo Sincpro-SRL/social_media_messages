@@ -5,5 +5,4 @@ from . import inherit_sale_order
 from . import inherit_crm_lead
 from . import inherit_res_partner
 from . import data_processor
-from . import messenger_message
 from . import social_media_messages
