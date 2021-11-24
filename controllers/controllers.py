@@ -17,7 +17,7 @@ class ControllerWebhookMessenger(http.Controller):
         _logger.info(data)
         if data["object"] == "page":
             social_network_identifier = http.request.env[
-                "social.metwork.identifier"
+                "social.network.identifier"
             ].sudo()
             try:
                 social_network_identifier.identifier("Facebook", data=data)

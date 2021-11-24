@@ -10,7 +10,7 @@ FACEBOOK = "Facebook"
 
 
 class SocialNetworkIdentifier(models.Model):
-    _name = "social.metwork.identifier"
+    _name = "social.network.identifier"
     _description = "Identifer data from Social Media"
 
     @api.model
