@@ -69,14 +69,14 @@ class FacebookHandler(models.Model):
         opportunity = self.env["crm.lead"].search(
             [("id", "=", data["crm_id_opportunity"])]
         )
-        message = dispatch(
+        response = dispatch(
             FB_SEND_MESSAGE,
             data=data,
             id_facebook=opportunity.partner_id.id_facebook,
             token=token,
         )
         opportunity.message_post(body=f"Messenger: {data['message']}")
-        _logger.info(f"Messeger: {message}")
+        _logger.info(f"Messenger: {response}")
 
 
 class CrmManager(models.Model):

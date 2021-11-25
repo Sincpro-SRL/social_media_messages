@@ -22,14 +22,14 @@ class ManagementData(models.Model):
         self.create(values)
         return "REGISTRO GUARDADO EXITOSAMENTE"
 
-    page_id = fields.Integer(string="ID de la página receptora", require=True)
-    customer_id = fields.Integer(string="ID de usuario de Facebook", require=True)
-    customer_message = fields.Char(string="Mensaje de cliente", require=True)
-    date_message = fields.Date(string="Fecha del mensaje recibido", require=True)
-    social_network = fields.Char(string="Red social del mensaje", require=True)
-    status_message = fields.Char(string="Estado del mensaje", require=True)
+    page_id = fields.Integer(string="ID de la página receptora", required=True)
+    customer_id = fields.Integer(string="ID de usuario de Facebook", required=True)
+    customer_message = fields.Char(string="Mensaje de cliente", required=True)
+    date_message = fields.Date(string="Fecha del mensaje recibido", required=True)
+    social_network = fields.Char(string="Red social del mensaje", required=True)
+    status_message = fields.Char(string="Estado del mensaje", required=True)
     attempts = fields.Integer(string="Número de intentos de envío")
     file_attached = fields.Binary(string="Archivo adjunto")
-    contact = fields.Many2one("res.partner", string="Contacto Asociado al mensaje", require=True)
+    contact = fields.Many2one("res.partner", string="Contacto Asociado al mensaje", required=True)
 
 
