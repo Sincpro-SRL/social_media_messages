@@ -2,11 +2,10 @@ import logging
 
 from odoo import models, api
 
-from ..data_parser.data_parser import fb_message_parser
+from ..data_parser.data_parser import fb_message_details_parser
 from ..dispatcher.dispatcher import dispatch
 from ..dispatcher.actions import FB_GET_PROFILE
-
-FACEBOOK = "Facebook"
+from .constans import FACEBOOK
 
 
 class SocialNetworkIdentifier(models.Model):
@@ -16,15 +15,20 @@ class SocialNetworkIdentifier(models.Model):
     @api.model
     def identifier(self, social_identifier, **kwargs):
         social_network_handler = {
-            FACEBOOK: self.facebook,
+            FACEBOOK: self.facebook_handler,
         }
         social_network = social_network_handler[social_identifier]
         social_network(**kwargs)
 
-    def facebook(self, data=None):
+    def facebook_handler(self, data=None):
         res_partner = self.env["res.partner"]
         management_data = self.env["management.data"]
-        message = fb_message_parser(data)
-        user_facebook = dispatch(FB_GET_PROFILE, user_id=message["customer_id"])
-        message["contact"] = res_partner.create_social_network_contact(**user_facebook)
-        social_media_message = management_data.storage_data(**message)
+        token = self.env["ir.config_parameter"].get_param("facebook.facebook_token")
+        message_details = fb_message_details_parser(data)
+        user_profile = dispatch(
+            FB_GET_PROFILE, user_id=message_details["customer_id"], token=token
+        )
+        message_details["contact"] = res_partner.create_social_network_contact(
+            user_profile
+        ).id
+        social_media_message = management_data.storage_data(message_details)

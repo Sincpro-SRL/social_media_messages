@@ -1,11 +1,14 @@
-def fb_message_parser(data):
-    entry_data = data["entry"][0]
-    messaging = entry_data["messaging"][0]
+from ..models.constans import FACEBOOK, RECEIVED
+
+
+def fb_message_details_parser(data):
+    entry = data["entry"][0]
+    messaging = entry["messaging"][0]
     return {
-        "time": entry_data["time"],
-        "page_id": entry_data["id"],
+        "time": entry["time"],
+        "page_id": entry["id"],
         "customer_id": messaging["sender"]["id"],
-        "customer_message": messaging["message"]["text"],
-        "social_network": data["source"]["social_network"],
-        "status_message": data["source"]["status_message"],
+        "message": messaging["message"]["text"],
+        "social_network": FACEBOOK,
+        "status_message": RECEIVED,
     }

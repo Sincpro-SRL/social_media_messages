@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 
-FACEBOOK = "Facebook"
+from .constans import FACEBOOK
 
 
 class AddIdFacebook(models.Model):
@@ -11,17 +11,12 @@ class AddIdFacebook(models.Model):
     social_network = fields.Char("Red Social", readonly=True)
 
     @api.model
-    def create_social_network_contact(
-        self,
-        id=None,
-        first_name=None,
-        last_name=None,
-    ):
-        contact = self.search([("id_social_network", "=", id)])
+    def create_social_network_contact(self, user):
+        contact = self.search([("id_social_network", "=", user["id"])])
         if not contact["social_network"] == FACEBOOK:
             values = {
-                "name": f"{first_name} {last_name}",
-                "id_social_network": id,
+                "name": f"{user['first_name']} {user['last_name']}",
+                "id_social_network": user["id"],
                 "social_network": FACEBOOK,
             }
             return self.create(values)
