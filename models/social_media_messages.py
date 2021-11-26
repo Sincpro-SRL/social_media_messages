@@ -3,8 +3,8 @@ from datetime import datetime
 from odoo import models, fields, api
 
 
-class ManagementData(models.Model):
-    _name = "management.data"
+class SocialMediaMessages(models.Model):
+    _name = "social.media.messages"
     _description = "Almacenamiento de información del mensaje"
 
     page_id = fields.Char(string="ID de la página receptora")
@@ -17,17 +17,25 @@ class ManagementData(models.Model):
     contact = fields.Many2one("res.partner", string="Contacto Asociado al mensaje")
 
     @api.model
-    def storage_data(self, data):
+    def storage_message(
+        self,
+        contact,
+        page_id=None,
+        time=None,
+        message=None,
+        social_network=None,
+        status_message=None,
+    ):
         values = {
-            "page_id": data["page_id"],
-            "date_message": datetime.utcfromtimestamp(data["time"] / 1000).strftime(
+            "page_id": page_id,
+            "date_message": datetime.utcfromtimestamp(time / 1000).strftime(
                 "%Y-%m-%d %H:%M:%S"
             ),
-            "customer_message": data["message"],
-            "social_network": data["social_network"],
-            "status_message": data["status_message"],
+            "customer_message": message,
+            "social_network": social_network,
+            "status_message": status_message,
             "attempts": 0,
             "file_attached": None,
-            "contact": data["contact"],
+            "contact": contact,
         }
         return self.create(values)

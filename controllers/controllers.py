@@ -4,6 +4,7 @@ from odoo.http import request
 from odoo.http import Response
 import logging
 
+from ..models.constans import FACEBOOK
 
 _logger = logging.getLogger(__name__)
 
@@ -16,11 +17,9 @@ class ControllerWebhookMessenger(http.Controller):
         data = request.jsonrequest
         _logger.info(data)
         if data["object"] == "page":
-            social_network_identifier = http.request.env[
-                "social.network.identifier"
-            ].sudo()
+            social_media_identifier = http.request.env["social.media.identifier"].sudo()
             try:
-                social_network_identifier.identifier("Facebook", data=data)
+                social_media_identifier.identifier(FACEBOOK, data=data)
             except:
                 pass
             return "EVENT_RECEIVED"
