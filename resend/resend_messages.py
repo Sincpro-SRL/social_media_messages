@@ -15,8 +15,8 @@ def resend_message(registers_not_sent, token):
                 id_facebook=register.customer_id,
                 token=token,
             )
-            register.attempts = register.attempts + 1
+            register.write({"attempts": register.attempts + 1})
             if response:
-                register.status_message = "SENT"
+                register.write({"status_message": "SENT"})
         else:
             _logger.info("Verificar mensaje no enviado: " + register)
