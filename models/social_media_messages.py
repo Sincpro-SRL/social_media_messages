@@ -17,7 +17,7 @@ class ManagementData(models.Model):
             'status_message': data['status_message'],
             'attempts': data["attempts"],
             'file_attached': None,
-            # 'contact': data['contact'].id,
+            'contact': data['contact'].id,
         }
         self.env['management.data'].create(values)
         return "REGISTRO GUARDADO EXITOSAMENTE"

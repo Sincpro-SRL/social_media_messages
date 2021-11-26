@@ -12,11 +12,11 @@ def resend_message(registers_not_sent, token):
             response = dispatch(
                 FB_SEND_MESSAGE,
                 data={"message": register.customer_message},
-                id_facebook=register.customer_id,
+                id_facebook=register.contact.id_facebook,
                 token=token,
             )
             register.write({"attempts": register.attempts + 1})
-            if response:
+            if response.status_code == 200:
                 register.write({"status_message": "SENT"})
         else:
             _logger.info("Verificar mensaje no enviado: " + register)
