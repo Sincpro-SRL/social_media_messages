@@ -62,21 +62,26 @@ class FacebookHandler(models.Model):
 
     def send_message(self):
         token = self.env["ir.config_parameter"].get_param("facebook.facebook_token")
-        data = {
-            "crm_id_opportunity": self.env.context["default_res_id"],
-            "message": self.note,
-        }
-        opportunity = self.env["crm.lead"].search(
-            [("id", "=", data["crm_id_opportunity"])]
-        )
+        crm_id_opportunity = self.env.context["default_res_id"]
+        message = self.note
+        opportunity = self.env["crm.lead"].search([("id", "=", crm_id_opportunity)])
+        contact = opportunity.partner_id
+        id_facebook = contact.id_facebook,
         response = dispatch(
             FB_SEND_MESSAGE,
-            data=data,
-            id_facebook=opportunity.partner_id.id_facebook,
+            data=message,
+            id_facebook=id_facebook,
             token=token,
         )
-        opportunity.message_post(body=f"Messenger: {data['message']}")
-        _logger.info(f"Messenger: {response}")
+        values = {
+            "response": response,
+            "message": message,
+            "contact": contact,
+            "id_facebook": id_facebook,
+            "time": datetime.today(),
+        }
+        self.env["social.media.messages"].odoo_message_handler(values)
+        opportunity.message_post(body=f"Messenger: {message}")
 
 
 class CrmManager(models.Model):
@@ -123,9 +128,7 @@ class DataProcessor(models.Model):
         user = self.env["facebook.handler"].data_handler(data)
         user_res_partner = self.user_checker(user.id)
         if not user_res_partner:
-            user_res_partner = self.env["create.contact"].create_partner_webhook_event(
-                user
-            )
+            user_res_partner = self.env["create.contact"].create_partner_webhook_event(user)
         _logger.info(user.message)
         self.env["crm.manager"].create_opportunity(user_res_partner, user.message)
 

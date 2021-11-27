@@ -27,9 +27,7 @@ class SocialMediaMessages(models.Model):
     ):
         values = {
             "page_id": page_id,
-            "date_message": datetime.utcfromtimestamp(time / 1000).strftime(
-                "%Y-%m-%d %H:%M:%S"
-            ),
+            "date_message": time,
             "customer_message": message,
             "social_network": social_network,
             "status_message": status_message,

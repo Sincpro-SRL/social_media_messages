@@ -2,6 +2,7 @@ import logging
 
 from ..dispatcher.dispatcher import dispatch
 from ..dispatcher.actions import FB_SEND_MESSAGE
+from ..models.constants import SENT
 
 _logger = logging.getLogger(__name__)
 
@@ -16,7 +17,7 @@ def resend_message(registers_not_sent, token):
                 token=token,
             )
             register.write({"attempts": register.attempts + 1})
-            if response.status_code == 200:
-                register.write({"status_message": "SENT"})
+            if response:
+                register.write({"status_message": SENT})
         else:
-            _logger.info("Verificar mensaje no enviado: " + register)
+            _logger.info("Verificar mensaje no enviado")

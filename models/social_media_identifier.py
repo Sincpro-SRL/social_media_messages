@@ -1,7 +1,7 @@
 from odoo import models, api
 
-from ..data_parser.data_parser import fb_message_details_parser, fb_user_profile_parser
-from .constants import FACEBOOK
+from ..data_parser.data_parser import fb_message_details_parser, fb_user_profile_parser, odoo_message_details_parser
+from .constants import FACEBOOK, SENT, NOT_SENT
 
 
 class SocialMediaIdentifier(models.Model):
@@ -23,4 +23,15 @@ class SocialMediaIdentifier(models.Model):
         id, message_details = fb_message_details_parser(data)
         user_profile = fb_user_profile_parser(id, token)
         contact = res_partner.create_social_media_contact(**user_profile)
-        message = social_media_messages.storage_message(contact.id, **message_details)
+        social_media_messages.storage_message(contact.id, **message_details)
+
+    @api.model
+    def odoo_message_handler(self, data):
+        social_media_messages = self.env["social.media.messages"]
+        if data["response"]:
+            data["status_message"] = SENT
+        else:
+            data["status_message"] = NOT_SENT
+
+        social_media_messages.storage_message(**data)
+

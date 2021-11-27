@@ -23,19 +23,22 @@ def fb_get_profile(user_id=None, token=None):
         _logger.warning(f"Timeout Error {errt}")
 
 
-def fb_send_message(data=None, id_facebook=None, token=None):
+def fb_send_message(message=None, id_facebook=None, token=None):
     try:
         headers = {"Content-type": "application/json"}
         values = {
             "recipient": {"id": f"{id_facebook}"},
-            "message": {"text": data["message"]},
+            "message": {"text": message},
         }
         response = requests.post(
             f"{FACEBOOK_API}/v12.0/me/messages?access_token={token}",
             data=json.dumps(values),
             headers=headers,
         )
-        return response
+        if response.status_code == 200:
+            return True
+        else:
+            return False
     except requests.exceptions.RequestException as err:
         _logger.warning(f"OOps: Something Else {err}")
     except requests.exceptions.HTTPError as errh:
