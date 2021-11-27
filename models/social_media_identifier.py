@@ -1,6 +1,6 @@
 from odoo import models, api
 
-from ..data_parser.data_parser import fb_message_details_parser, fb_user_profile_parser, odoo_message_details_parser
+from ..data_parser.data_parser import fb_message_details_parser, fb_user_profile_parser
 from .constants import FACEBOOK, SENT, NOT_SENT
 
 
