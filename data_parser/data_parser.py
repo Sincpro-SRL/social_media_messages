@@ -1,6 +1,6 @@
 from ..dispatcher.dispatcher import dispatch
 from ..dispatcher.actions import FB_GET_PROFILE
-from ..models.constans import FACEBOOK, RECEIVED
+from ..models.constants import FACEBOOK, RECEIVED
 
 
 def fb_message_details_parser(data):

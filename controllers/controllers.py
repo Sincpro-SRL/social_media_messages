@@ -3,7 +3,7 @@ from odoo.http import request
 from odoo.http import Response
 import logging
 
-from ..models.constans import FACEBOOK
+from ..models.constants import FACEBOOK
 
 _logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class ControllerWebhookMessenger(http.Controller):
             return Response(status=404)
 
     @http.route("/webhook_messenger", methods=["GET"], auth="public")
-    def verificacion_webhook(self, **kw):
+    def verification_webhook(self, **kw):
         VERIFY_TOKEN = "Hola_mundo"
 
         data = request

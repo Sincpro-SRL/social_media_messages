@@ -1,14 +1,12 @@
-import logging
-
 from odoo import models, api
 
 from ..data_parser.data_parser import fb_message_details_parser, fb_user_profile_parser
-from .constans import FACEBOOK
+from .constants import FACEBOOK
 
 
 class SocialMediaIdentifier(models.Model):
     _name = "social.media.identifier"
-    _description = "Identifer data from Social Media"
+    _description = "Identifier data from Social Media"
 
     @api.model
     def identifier(self, id_social_media, **kwargs):

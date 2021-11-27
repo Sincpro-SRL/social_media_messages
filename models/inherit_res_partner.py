@@ -1,6 +1,6 @@
 from odoo import models, fields, api
 
-from .constans import FACEBOOK
+from .constants import FACEBOOK
 
 
 class AddIdFacebook(models.Model):
