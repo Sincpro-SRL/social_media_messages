@@ -1,2 +1,4 @@
 FACEBOOK = "Facebook"
-RECEIVED = "Received"
+RECEIVED = "RECEIVED"
+SENT = "SENT"
+NOT_SENT = "NOT_SENT"
