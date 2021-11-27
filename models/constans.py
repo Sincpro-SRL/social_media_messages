@@ -1,0 +1,2 @@
+FACEBOOK = "Facebook"
+RECEIVED = "Received"

@@ -1,10 +1,7 @@
-from datetime import datetime
-
 from odoo import models, api
 import logging
 
 from .resend_messages import resend_message
-from ..models.social_media_messages import ManagementData
 
 _logger = logging.getLogger(__name__)
 
@@ -17,7 +14,7 @@ class PullMessages(models.Model):
     @api.model
     def pull_registers(self):
         token = self.env["ir.config_parameter"].get_param("facebook.facebook_token")
-        registers = self.env['management.data']
+        registers = self.env['social.media.messages']
         registers_not_sent = registers.search([('status_message', '=', 'NOT_SENT')])
 
         if registers_not_sent:
