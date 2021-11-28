@@ -12,8 +12,8 @@ def resend_message(registers_not_sent, token):
         if register.attempts < 3:
             response = dispatch(
                 FB_SEND_MESSAGE,
-                data={"message": register.customer_message},
-                id_facebook=register.contact.id_facebook,
+                message=register.customer_message,
+                id_facebook=register.contact.id_social_media,
                 token=token,
             )
             register.write({"attempts": register.attempts + 1})

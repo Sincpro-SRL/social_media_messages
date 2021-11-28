@@ -12,7 +12,7 @@ def fb_get_profile(user_id=None, token=None):
         if not (token and user_id):
             raise Exception("Token y/o usuario messenger no existe(n)")
         response = requests.get(f"{FACEBOOK_API}/{user_id}?access_token={token}")
-        return response
+        return response.json()
     except requests.exceptions.RequestException as err:
         _logger.warning(f"OOps: Something Else {err}")
     except requests.exceptions.HTTPError as errh:

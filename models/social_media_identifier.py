@@ -25,13 +25,13 @@ class SocialMediaIdentifier(models.Model):
         contact = res_partner.create_social_media_contact(**user_profile)
         social_media_messages.storage_message(contact.id, **message_details)
 
-    @api.model
-    def odoo_message_handler(self, data):
+    def odoo_message_handler(self, data, response):
         social_media_messages = self.env["social.media.messages"]
-        if data["response"]:
+        if response:
             data["status_message"] = SENT
         else:
             data["status_message"] = NOT_SENT
 
+        data["social_network"] = FACEBOOK
         social_media_messages.storage_message(**data)
 

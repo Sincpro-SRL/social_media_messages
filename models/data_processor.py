@@ -66,21 +66,19 @@ class FacebookHandler(models.Model):
         message = self.note
         opportunity = self.env["crm.lead"].search([("id", "=", crm_id_opportunity)])
         contact = opportunity.partner_id
-        id_facebook = contact.id_facebook,
+        id_facebook = contact.id_social_media,
         response = dispatch(
             FB_SEND_MESSAGE,
-            data=message,
+            message=message,
             id_facebook=id_facebook,
             token=token,
         )
         values = {
-            "response": response,
             "message": message,
-            "contact": contact,
-            "id_facebook": id_facebook,
+            "contact": contact.id,
             "time": datetime.today(),
         }
-        self.env["social.media.messages"].odoo_message_handler(values)
+        self.env["social.media.identifier"].odoo_message_handler(values, response)
         opportunity.message_post(body=f"Messenger: {message}")
 
 
