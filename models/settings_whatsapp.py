@@ -1,4 +1,4 @@
-from odoo import fields, models, api
+from odoo import fields, models
 
 
 class WhatsappConfigSettings(models.TransientModel):
@@ -15,6 +15,7 @@ class WhatsappConfigSettings(models.TransientModel):
 
     def set_values(self):
         res = super(WhatsappConfigSettings, self).set_values()
+
         self.env["ir.config_parameter"].set_param(
             "whatsapp.whatsapp_crm", self.whatsapp_crm
         )
@@ -44,6 +45,7 @@ class WhatsappConfigSettings(models.TransientModel):
 
     def get_values(self):
         res = super(WhatsappConfigSettings, self).get_values()
+
         whatsapp_crm = self.env["ir.config_parameter"].get_param(
             "whatsapp.whatsapp_crm"
         )

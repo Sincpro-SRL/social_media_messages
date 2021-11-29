@@ -2,8 +2,7 @@ from odoo import api, fields, models
 
 
 class InheritCRMLead(models.Model):
-    _name = 'crm.lead'
-    _inherit = ['crm.lead', 'sincpro.whatsapp']
+    _inherit = 'crm.lead'
 
     from_messenger_opportunity = fields.Boolean('Creado desde messenger', readonly=True, default=False)
 

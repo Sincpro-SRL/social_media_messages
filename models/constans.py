@@ -1,2 +1,0 @@
-FACEBOOK = "Facebook"
-RECEIVED = "Received"

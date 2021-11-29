@@ -1,6 +1,7 @@
+from datetime import datetime
 from ..dispatcher.dispatcher import dispatch
 from ..dispatcher.actions import FB_GET_PROFILE
-from ..models.constans import FACEBOOK, RECEIVED
+from ..models.constants import FACEBOOK, RECEIVED
 
 
 def fb_message_details_parser(data):
@@ -8,7 +9,7 @@ def fb_message_details_parser(data):
     messaging = entry["messaging"][0]
     id = messaging["sender"]["id"]
     message_details = {
-        "time": entry["time"],
+        "time": datetime.utcfromtimestamp(entry["time"] / 1000).strftime("%Y-%m-%d %H:%M:%S"),
         "page_id": entry["id"],
         "message": messaging["message"]["text"],
         "social_network": FACEBOOK,

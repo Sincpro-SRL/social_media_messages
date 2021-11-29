@@ -1,18 +1,15 @@
-# -*- coding: utf-8 -*-
 from odoo import http
 from odoo.http import request
 from odoo.http import Response
 import logging
 
-from ..models.constans import FACEBOOK
+from ..models.constants import FACEBOOK
 
 _logger = logging.getLogger(__name__)
 
 
 class ControllerWebhookMessenger(http.Controller):
-    @http.route(
-        "/webhook_messenger", methods=["POST"], type="json", auth="public", csrf=False
-    )
+    @http.route("/webhook_messenger", methods=["POST"], type="json", auth="public", csrf=False)
     def webhook(self, **kw):
         data = request.jsonrequest
         _logger.info(data)
@@ -27,7 +24,7 @@ class ControllerWebhookMessenger(http.Controller):
             return Response(status=404)
 
     @http.route("/webhook_messenger", methods=["GET"], auth="public")
-    def verificacion_webhook(self, **kw):
+    def verification_webhook(self, **kw):
         VERIFY_TOKEN = "Hola_mundo"
 
         data = request

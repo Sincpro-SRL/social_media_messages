@@ -7,7 +7,7 @@
             <form string="Render window message" create="false">
                 <field name="note" placeholder="Escribe un mensaje..."/>
                 <footer>
-                    <button string="Enviar mensaje" name="send_message" type="object" class="btn-primary"/>
+                    <button string="Enviar mensaje a Messenger" name="send_message" type="object" class="btn-primary"/>
                     <button string="Cancelar" class="btn-secondary" special="cancel" />
                 </footer>
             </form>

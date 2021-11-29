@@ -10,7 +10,7 @@
                         t-att-disabled="chatter.isDisabled"
                         t-on-click="_onClickMessenger"
                 >
-                    Mensaje a Messenger
+                    Mensaje a Red Social
                 </button>
             </t>
         </xpath>
