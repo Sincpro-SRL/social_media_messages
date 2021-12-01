@@ -4,3 +4,4 @@ from . import inherit_res_partner
 from . import data_processor
 from . import social_media_messages
 from . import social_media_identifier
+from . import opportunity_manager

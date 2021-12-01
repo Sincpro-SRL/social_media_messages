@@ -9,7 +9,9 @@ def fb_message_details_parser(data):
     messaging = entry["messaging"][0]
     id = messaging["sender"]["id"]
     message_details = {
-        "time": datetime.utcfromtimestamp(entry["time"] / 1000).strftime("%Y-%m-%d %H:%M:%S"),
+        "time": datetime.utcfromtimestamp(entry["time"] / 1000).strftime(
+            "%Y-%m-%d %H:%M:%S"
+        ),
         "page_id": entry["id"],
         "message": messaging["message"]["text"],
         "social_network": FACEBOOK,
