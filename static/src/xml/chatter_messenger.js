@@ -8,10 +8,10 @@ odoo.define(
         };
         const container = require("mail/static/src/components/chatter_container/chatter_container.js");
         const rpc = require("web.rpc");
-        const {clear} = require("mail/static/src/model/model_field_command.js");
-        const {registry} = require("mail/static/src/model/model_core.js");
-        const {patch} = require("web.utils");
-        const {attr, many2one, one2one} = require("mail/static/src/model/model_field.js");
+        const { clear } = require("mail/static/src/model/model_field_command.js");
+        const { registry } = require("mail/static/src/model/model_core.js");
+        const { patch } = require("web.utils");
+        const { attr, many2one, one2one } = require("mail/static/src/model/model_field.js");
         let props_env = null;
 
 
@@ -364,13 +364,13 @@ odoo.define(
 
         patch(
             components.ChatterTopbar,
-                "sincpro_whatsapp/static/src/xml/chatter_messenger.js",
+            "sincpro_whatsapp/static/src/xml/chatter_messenger.js",
             {
                 _onClickMessenger(ev) {
                     const action = {
                         type: 'ir.actions.act_window',
                         name: this.env._t("Enviar mensaje a Facebook"),
-                        res_model: 'facebook.handler',
+                        res_model: 'chatter.manager',
                         view_mode: 'form',
                         views: [[false, 'form']],
                         target: 'new',

@@ -37,6 +37,7 @@ class OpportunityManager(models.Model):
         _logger.info(f"New opportunity created: {name_opportunity}")
         return opportunity
 
+    @api.model
     def message_post(self, opportunity, message):
         opportunity.message_post(
             body=f"{message.contact.social_media}: {message.customer_message}"
