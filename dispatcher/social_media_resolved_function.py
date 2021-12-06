@@ -2,7 +2,7 @@ import json
 import requests
 import logging
 
-from .actions import FACEBOOK_API
+from .actions import FACEBOOK_API, SENT, NOT_SENT
 
 _logger = logging.getLogger(__name__)
 
@@ -24,6 +24,7 @@ def fb_get_profile(user_id=None, token=None):
 
 
 def fb_send_message(message=None, id_facebook=None, token=None):
+    status = NOT_SENT
     try:
         headers = {"Content-type": "application/json"}
         values = {
@@ -36,9 +37,8 @@ def fb_send_message(message=None, id_facebook=None, token=None):
             headers=headers,
         )
         if response.status_code == 200:
-            return True
-        else:
-            return False
+            status = SENT
+        return status
     except requests.exceptions.RequestException as err:
         _logger.warning(f"OOps: Something Else {err}")
     except requests.exceptions.HTTPError as errh:

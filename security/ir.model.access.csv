@@ -1,4 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_facebook_handler,access_facebook_handler,model_facebook_handler,base.group_user,1,1,1,1
 access_social_media_identifier,access_social_media_identifier,model_social_media_identifier,base.group_user,1,1,1,1
 access_social_media_messages,access_social_media_messages,model_social_media_messages,base.group_user,1,1,1,1
+access_opportunity_manager,access_opportunity_manager,model_opportunity_manager,base.group_user,1,1,1,1
+access_chatter_manager,access_chatter_manager,model_chatter_manager,base.group_user,1,1,1,1
