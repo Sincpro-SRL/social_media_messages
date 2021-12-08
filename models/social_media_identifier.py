@@ -1,3 +1,4 @@
+from addons.sincpro.social_media_messages.models import facebook_
 from odoo import models, api
 
 from ..data_parser.data_parser import fb_message_details_parser, fb_user_profile_parser
@@ -20,9 +21,11 @@ class SocialMediaIdentifier(models.Model):
         res_partner = self.env["res.partner"]
         social_media_messages = self.env["social.media.messages"]
         opportunity_manager = self.env["opportunity.manager"]
-        token = self.env["ir.config_parameter"].get_param("facebook.facebook_token")
         id, message_details = fb_message_details_parser(data)
-        user_profile = fb_user_profile_parser(id, token)
+        facebook_id = self.evn["facebook.page.id"].search(
+            [("page_id", "=", message_details["page_id"])]
+        )
+        user_profile = fb_user_profile_parser(id, facebook_id.token)
         contact = res_partner.create_social_media_contact(**user_profile)
         message = social_media_messages.storage_message(contact.id, **message_details)
         opportunity_manager.opportunity_handler(message)
