@@ -1,4 +1,3 @@
-from addons.sincpro.social_media_messages.models import facebook_
 from odoo import models, api
 
 from ..data_parser.data_parser import fb_message_details_parser, fb_user_profile_parser
