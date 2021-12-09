@@ -21,7 +21,7 @@ class SocialMediaIdentifier(models.Model):
         social_media_messages = self.env["social.media.messages"]
         opportunity_manager = self.env["opportunity.manager"]
         id, message_details = fb_message_details_parser(data)
-        facebook_id = self.evn["facebook.page.id"].search(
+        facebook_id = self.env["facebook.page.id"].search(
             [("page_id", "=", message_details["page_id"])]
         )
         user_profile = fb_user_profile_parser(id, facebook_id.token)
