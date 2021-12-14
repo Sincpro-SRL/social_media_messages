@@ -23,12 +23,12 @@ class Chatter_manager(models.Model):
             [("id", "=", self.env.context["default_res_id"])]
         )
         contact = opportunity.partner_id
-        status = self.send_message_handler(contact)
-        message = self.storage_message(contact, status)
+        status = self.send_message_handler(contact, opportunity.page_id)
+        message = self.storage_message(contact, status, opportunity.page_id)
         self.env["opportunity.manager"].message_post(opportunity, message)
 
-    def send_message_to_facebbok(self, contact):
-        token = self.env["ir.config_parameter"].get_param("facebook.facebook_token")
+    def send_message_to_facebbok(self, contact, page_id):
+        token = self.env["facebook.page.id"].search([("page_id", "=", page_id)]).token
         return dispatch(
             FB_SEND_MESSAGE,
             message=self.note,
@@ -36,16 +36,17 @@ class Chatter_manager(models.Model):
             token=token,
         )
 
-    def send_message_handler(self, contact):
+    def send_message_handler(self, contact, page_id):
         send_message = {FACEBOOK: self.send_message_to_facebbok}
-        return send_message[contact.social_media](contact)
+        return send_message[contact.social_media](contact, page_id)
 
-    def storage_message(self, contact, status):
+    def storage_message(self, contact, status, page_id):
         values = {
             "message": self.note,
             "contact": contact.id,
             "time": datetime.today(),
             "status_message": status,
             "social_network": contact.social_media,
+            "page_id": page_id,
         }
         return self.env["social.media.messages"].storage_message(**values)

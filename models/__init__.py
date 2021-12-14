@@ -5,3 +5,4 @@ from . import social_media_messages
 from . import social_media_identifier
 from . import opportunity_manager
 from . import chatter_manager
+from . import facebook_page_id
