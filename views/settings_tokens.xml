@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="social_media_tokens_view">
+            <field name="name">social.media.tokens.view</field>
+            <field name="model">social.media.tokens</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name_page"/>
+                    <field name="page_id"/>
+                    <field name="facebook_token"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -3,3 +3,4 @@ access_social_media_identifier,access_social_media_identifier,model_social_media
 access_social_media_messages,access_social_media_messages,model_social_media_messages,base.group_user,1,1,1,1
 access_opportunity_manager,access_opportunity_manager,model_opportunity_manager,base.group_user,1,1,1,1
 access_chatter_manager,access_chatter_manager,model_chatter_manager,base.group_user,1,1,1,1
+access_social_media_tokens,access_social_media_tokens,model_social_media_tokens,base.group_user,1,1,1,1

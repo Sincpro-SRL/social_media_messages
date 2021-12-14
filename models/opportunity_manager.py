@@ -3,8 +3,6 @@ import logging
 
 from odoo import models, api, fields
 
-from .constants import FACEBOOK
-
 _logger = logging.getLogger(__name__)
 
 
@@ -43,12 +41,12 @@ class OpportunityManager(models.Model):
             body=f"{message.contact.social_media}: {message.customer_message}"
         )
 
-    def opportunity_validator(self, name_oportunity, contact):
+    def opportunity_validator(self, name_opportunity, contact):
         crm_lead = self.env["crm.lead"]
-        opportinity = self.opportunity_checker(crm_lead, name_oportunity)
-        if not opportinity:
-            opportinity = self.create_opportunity(crm_lead, contact)
-        return opportinity
+        opportunity = self.opportunity_checker(crm_lead, name_opportunity)
+        if not opportunity:
+            opportunity = self.create_opportunity(crm_lead, contact)
+        return opportunity
 
     @api.model
     def opportunity_handler(self, message):
