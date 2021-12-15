@@ -23,11 +23,11 @@
                             <div class="col-12 col-lg-6 o_setting_box">
                                 <div class="content-group o_field_char o_field_widget">
                                     <div class="o_form_label">
-                                        <label for="test" string="Tokens de Paginas"/>
+                                        <label for="tokens_table" string="Tokens de Paginas"/>
                                     </div>
                                 </div>
                                 <div class="content-group o_field_char o_field_widget">
-                                    <field name="test"/>
+                                    <field name="tokens_table"/>
                                 </div>
                             </div>
                         </div>
