@@ -38,7 +38,7 @@ class ChatterManager(models.Model):
         )
 
     def send_message_handler(self, contact, page_id):
-        send_message = {FACEBOOK: self.send_message_to_facebbok}
+        send_message = {FACEBOOK: self.send_message_to_facebook}
         return send_message[contact.social_media](contact, page_id)
 
     def storage_message(self, contact, status, page_id):
