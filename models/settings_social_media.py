@@ -1,3 +1,5 @@
+from ast import literal_eval
+
 from odoo import fields, models, api
 
 
@@ -9,8 +11,8 @@ class SocialMediaSettings(models.TransientModel):
     def get_values(self):
         res = super(SocialMediaSettings, self).get_values()
         values = self.env['ir.config_parameter'].sudo().get_param('social_media_tokens.tokens_table')
-        ids = [int(x) for x in values.strip('][').split(',')]
-        res['tokens_table'] = self.env['social.media.tokens'].search([('id', 'in', ids)])
+        res.update(
+            tokens_table=[(6, 0, literal_eval(values))] if values else False, )
         return res
 
     def set_values(self):
