@@ -21,15 +21,18 @@ class OpportunityManager(models.Model):
                     return opportunity
         return None
 
-    def create_opportunity(self, crm_lead, contact):
-        name_opportunity = f"{contact.name}'s opportunity {contact.social_media}"
+    def create_opportunity(self, crm_lead, message):
+        name_opportunity = (
+            f"{message.contact.name}'s opportunity {message.contact.social_media}"
+        )
         opportunity = crm_lead.create(
             {
                 "priority": "1",
                 "name": name_opportunity,
-                "partner_id": contact.id,
+                "partner_id": message.contact.id,
                 "type": "opportunity",
                 "from_messenger_opportunity": True,
+                "page_id": message.page_id,
             }
         )
         _logger.info(f"New opportunity created: {name_opportunity}")
@@ -41,11 +44,11 @@ class OpportunityManager(models.Model):
             body=f"{message.contact.social_media}: {message.customer_message}"
         )
 
-    def opportunity_validator(self, name_opportunity, contact):
+    def opportunity_validator(self, name_opportunity, message):
         crm_lead = self.env["crm.lead"]
         opportunity = self.opportunity_checker(crm_lead, name_opportunity)
         if not opportunity:
-            opportunity = self.create_opportunity(crm_lead, contact)
+            opportunity = self.create_opportunity(crm_lead, message)
         return opportunity
 
     @api.model
@@ -53,5 +56,5 @@ class OpportunityManager(models.Model):
         name_opportunity = (
             f"{message.contact.name}'s opportunity {message.contact.social_media}"
         )
-        opportunity = self.opportunity_validator(name_opportunity, message.contact)
+        opportunity = self.opportunity_validator(name_opportunity, message)
         self.message_post(opportunity, message)
