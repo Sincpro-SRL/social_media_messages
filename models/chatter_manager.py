@@ -10,7 +10,7 @@ from .constants import FACEBOOK
 _logger = logging.getLogger(__name__)
 
 
-class Chatter_manager(models.Model):
+class ChatterManager(models.Model):
     _name = "chatter.manager"
     _description = (
         "Management the processes to send message from opportunity to social media"
@@ -27,8 +27,9 @@ class Chatter_manager(models.Model):
         message = self.storage_message(contact, status, opportunity.page_id)
         self.env["opportunity.manager"].message_post(opportunity, message)
 
-    def send_message_to_facebbok(self, contact, page_id):
-        token = self.env["facebook.page.id"].search([("page_id", "=", page_id)]).token
+    def send_message_to_facebook(self, contact, page_id):
+        token = self.env["social.media.tokens"].search([("page_id", "=", page_id)]).facebook_token
+
         return dispatch(
             FB_SEND_MESSAGE,
             message=self.note,
@@ -37,7 +38,7 @@ class Chatter_manager(models.Model):
         )
 
     def send_message_handler(self, contact, page_id):
-        send_message = {FACEBOOK: self.send_message_to_facebbok}
+        send_message = {FACEBOOK: self.send_message_to_facebook}
         return send_message[contact.social_media](contact, page_id)
 
     def storage_message(self, contact, status, page_id):
