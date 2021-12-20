@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+        <record id="actions_social_media_settings" model="ir.actions.act_window">
+            <field name="name">Social Media Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module': 'conf_whatsapp'}</field>
+        </record>
+
+        <record id="cpq_data_config_settings" model="ir.ui.view">
+            <field name="name">res.config.view.inherited.cpq_data</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="30"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Social Media Settings" string="Social Media Messages"
+                         data-key="conf_whatsapp">
+                        <h2>Facebook</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="content-group o_field_char o_field_widget">
+                                    <div class="o_form_label">
+                                        <label for="tokens_table" string="Tokens de Paginas"/>
+                                    </div>
+                                </div>
+                                <div class="content-group o_field_char o_field_widget">
+                                    <field name="tokens_table"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

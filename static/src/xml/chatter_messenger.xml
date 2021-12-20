@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xml:space="preserve">
+    <t t-inherit="mail.ChatterTopbar" t-inherit-mode="extension">
+        <xpath expr="//*[@class='btn btn-link o_ChatterTopbar_button o_ChatterTopbar_buttonScheduleActivity']"
+               position="after"
+        >
+            <t t-if="chatter.__values.isFromMessenger and chatter.__values.threadModel == 'crm.lead'">
+                <button class="btn btn-link o_ChatterTopbar_button o_ChatterTopbar_buttonMessenger"
+                        type="button"
+                        t-att-disabled="chatter.isDisabled"
+                        t-on-click="_onClickMessenger"
+                >
+                    Mensaje a Red Social
+                </button>
+            </t>
+        </xpath>
+    </t>
+</template>

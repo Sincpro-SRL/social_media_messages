@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="social_media_tokens_tree_view">
+            <field name="name">social.media.tokens.tree.view</field>
+            <field name="model">social.media.tokens</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name_page"/>
+                    <field name="page_id"/>
+                    <field name="facebook_token"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="social_media_tokens_form_view">
+            <field name="name">social.media.tokens.form.view</field>
+            <field name="model">social.media.tokens</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group class="col-12 col-lg-6 o_setting_box o_field_char o_field_widget">
+                            <field name="name_page"/>
+                            <field name="page_id"/>
+                            <field name="facebook_token"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
